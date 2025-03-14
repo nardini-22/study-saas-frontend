@@ -6,6 +6,11 @@
 @layer base {
   :root {
     --main: #ffdc58;
+    --main-blue: #88aaee;
+    --main-orange: #fd9745;
+    --main-pink: #ff6b6b;
+    --main-green: #a3e636;
+    --main-purple: #a388ee;
     --overlay: rgba(0, 0, 0, 0.8);
 
     --bg: #fef2e8;
