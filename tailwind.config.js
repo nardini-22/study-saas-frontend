@@ -6,11 +6,11 @@ module.exports = {
     extend: {
       colors: {
         main: "var(--main)",
-        mainBlue: "var(--main-blue)",
-        mainOrange: "var(--main-orange)",
-        mainPink: "var(--main-pink)",
-        mainGreen: "var(--main-green)",
-        mainPurple: "var(--main-purple)",
+        "main-blue": "var(--main-blue)",
+        "main-orange": "var(--main-orange)",
+        "main-pink": "var(--main-pink)",
+        "main-green": "var(--main-green)",
+        "main-purple": "var(--main-purple)",
         overlay: "var(--overlay)",
         bg: "var(--bg)",
         bw: "var(--bw)",
