@@ -3,7 +3,7 @@ import "./globals.css";
 import localFont from "next/font/local";
 
 const tacticSans = localFont({
-  src: "../public/fonts/TacticSans-Bld.woff2",
+  src: "../../public/fonts/TacticSans-Bld.woff2",
   variable: "--font-tactic-sans",
 });
 

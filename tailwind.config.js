@@ -1,20 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
       colors: {
         main: "var(--main)",
-        mainBlue: "var(--main-blue)",
-        mainOrange: "var(--main-orange)",
-        mainPink: "var(--main-pink)",
-        mainGreen: "var(--main-green)",
-        mainPurple: "var(--main-purple)",
+        "main-blue": "var(--main-blue)",
+        "main-orange": "var(--main-orange)",
+        "main-pink": "var(--main-pink)",
+        "main-green": "var(--main-green)",
+        "main-purple": "var(--main-purple)",
         overlay: "var(--overlay)",
         bg: "var(--bg)",
         bw: "var(--bw)",
