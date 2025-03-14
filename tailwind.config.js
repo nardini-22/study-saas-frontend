@@ -34,6 +34,10 @@ module.exports = {
         reverseBoxShadowX: "-4px",
         reverseBoxShadowY: "-4px",
       },
+      fontFamily: {
+        overpass: "var(--font-overpass)",
+        "tactic-sans": "var(--font-tactic-sans)",
+      },
       fontWeight: {
         base: "500",
         heading: "700",

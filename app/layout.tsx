@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import localFont from "next/font/local";
+
+const tacticSans = localFont({
+  src: "../public/fonts/TacticSans-Bld.woff2",
+  variable: "--font-tactic-sans",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -13,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={"antialiased"}>{children}</body>
+      <body className={tacticSans.variable}>{children}</body>
     </html>
   );
 }
