@@ -1,3 +1,9 @@
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
-  return <div>Estrutura inicial do projeto</div>;
+  return (
+    <div>
+      <Button>Sign up</Button>
+    </div>
+  );
 }
