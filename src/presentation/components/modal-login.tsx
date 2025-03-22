@@ -10,17 +10,29 @@ import {
   DialogTrigger,
   Button,
 } from "@/presentation/components";
+import { useRouter } from "next/navigation";
 
 interface Props {
   auth: IAuthContract;
 }
 
 export function ModalLogin({ auth }: Props) {
+  const { push } = useRouter();
   const handleLoginGoogle = async () => {
-    await auth.loginWithGoogle();
+    try {
+      await auth.loginWithGoogle();
+      push("/trails");
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleLoginGithub = async () => {
-    await auth.loginWithGithub();
+    try {
+      await auth.loginWithGithub();
+      push("/trails");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <Dialog>

@@ -9,7 +9,9 @@ export function supabaseLoginAdapter(): IAuthContract {
     });
   };
   const loginWithGithub = async () => {
-    console.log("loginWithGithub");
+    await supabase.auth.signInWithOAuth({
+      provider: "github",
+    });
   };
   return { loginWithGoogle, loginWithGithub };
 }
