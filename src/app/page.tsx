@@ -1,9 +1,8 @@
-import { Button } from "@/components";
+"use client";
+
+import { makeSupabaseLoginAdapter } from "@/main/factories/adapters";
+import { HomePage } from "@/presentation/pages";
 
 export default function Home() {
-  return (
-    <div>
-      <Button>Sign up</Button>
-    </div>
-  );
+  return <HomePage auth={makeSupabaseLoginAdapter()} />;
 }
