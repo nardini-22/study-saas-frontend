@@ -25,10 +25,14 @@
         "noNonNullAssertion": "off"
       },
       "complexity": {
-        "noForEach": "off"
+        "noForEach": "off",
+        "noUselessCatch": "off"
       },
       "correctness": {
         "useExhaustiveDependencies": "off"
+      },
+      "suspicious": {
+        "noAssignInExpressions": "off"
       }
     }
   },
