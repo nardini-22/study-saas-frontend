@@ -1,6 +1,6 @@
 "use client";
 
-import { Plus } from "lucide-react";
+import { useForm } from "react-hook-form";
 import {
   Button,
   Dialog,
@@ -9,45 +9,42 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
   Input,
-  Paper,
   Textarea,
-  Form,
 } from "./ui";
-import { useForm } from "react-hook-form";
 import {
-  CreateTrailSchema,
-  ICreateTrail,
-  ITrailsContract,
-} from "@/domain/models/trails";
+  CreatePostSchema,
+  ICreatePost,
+  IPostsContract,
+} from "@/domain/models/posts";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 
 interface Props {
-  service: ITrailsContract;
-  fetchTrails: () => Promise<void>;
+  service: IPostsContract;
+  trailId: string;
 }
 
-export function ModalCreateTrail({ service, fetchTrails }: Props) {
-  const form = useForm<ICreateTrail>({
-    resolver: zodResolver(CreateTrailSchema),
+export function ModalCreatePost({ service, trailId }: Props) {
+  const form = useForm<ICreatePost>({
+    resolver: zodResolver(CreatePostSchema),
     defaultValues: {
-      name: "",
-      description: "",
+      title: "",
+      content: "",
     },
   });
   const [open, setOpen] = useState<boolean>(false);
 
-  const onSubmit = async (data: ICreateTrail) => {
+  const onSubmit = async (data: ICreatePost) => {
     try {
-      await service.createTrail({ body: data });
+      await service.createPost({ body: data, trailId });
       setOpen(false);
-      fetchTrails();
     } catch (err) {
       console.log(err);
     }
@@ -55,16 +52,12 @@ export function ModalCreateTrail({ service, fetchTrails }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Paper type="button" className="size-32">
-          <Plus size={24} />
-        </Paper>
+        <Button>Novo post</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Nova trilha</DialogTitle>
-          <DialogDescription>
-            Customize sua trilha do jeito que quiser.
-          </DialogDescription>
+          <DialogTitle>Novo post</DialogTitle>
+          <DialogDescription>Dê mais um passo nessa trilha.</DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -73,12 +66,12 @@ export function ModalCreateTrail({ service, fetchTrails }: Props) {
           >
             <FormField
               control={form.control}
-              name="name"
+              name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Nome</FormLabel>
+                  <FormLabel>Título</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input placeholder="Adicione um título..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -86,13 +79,13 @@ export function ModalCreateTrail({ service, fetchTrails }: Props) {
             />
             <FormField
               control={form.control}
-              name="description"
+              name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Descrição</FormLabel>
+                  <FormLabel>Conteúdo</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder="Adiciona uma descrição..."
+                      placeholder="Adiciona um conteúdo..."
                       {...field}
                     />
                   </FormControl>
@@ -100,7 +93,7 @@ export function ModalCreateTrail({ service, fetchTrails }: Props) {
                 </FormItem>
               )}
             />
-            <Button type="submit">Salvar trilha</Button>
+            <Button type="submit">Publicar post</Button>
           </form>
         </Form>
       </DialogContent>
