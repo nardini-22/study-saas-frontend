@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
+import { Providers } from "@/presentation/components";
 
 const tacticSans = localFont({
   src: "../../public/fonts/TacticSans-Bld.woff2",
@@ -19,7 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={tacticSans.variable}>{children}</body>
+      <body className={tacticSans.variable}>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
