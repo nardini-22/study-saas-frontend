@@ -5,11 +5,12 @@ import {
   ServerError,
   UnauthorizedError,
   ForbiddenError,
+  ConflictError,
 } from "@/domain/errors";
 
 export function httpClientAuthorizedAdapter(): IHttpClient {
   const API_BASE_URL =
-    process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+    process.env.NEXT_PUBLIC_API_URL || process.env.NEXT_PUBLIC_LOCAL_URL;
   const request = async <Body = unknown, Response = unknown>(
     data: HttpRequest<Body>
   ): Promise<HttpResponse<Response>> => {
@@ -69,6 +70,10 @@ export function httpClientAuthorizedAdapter(): IHttpClient {
         });
       case 404:
         throw new NotFoundError({
+          code: response.status.toString(),
+        });
+      case 409:
+        throw new ConflictError({
           code: response.status.toString(),
         });
       default:

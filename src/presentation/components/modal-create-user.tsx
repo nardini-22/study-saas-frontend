@@ -22,9 +22,10 @@ import {
   ICreateUser,
   IUsersContract,
 } from "@/domain/models/users";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Check, X } from "lucide-react";
+import { ConflictError } from "@/domain/errors";
 
 interface Props {
   open: boolean;
@@ -41,31 +42,31 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
     },
   });
 
-  const [usernameValue, setUsernameValue] = useState("");
+  const usernameValue = form.watch("username");
+
   const debouncedUsername = useDebounce(usernameValue, 500);
+
+  const checkUsername = useCallback(async () => {
+    try {
+      await service.getCheckUsername({ username: debouncedUsername });
+      form.clearErrors("username");
+    } catch (error) {
+      if (error instanceof ConflictError) {
+        form.setError("username", {
+          type: "validate",
+          message: "Este username já está em uso",
+        });
+        return;
+      }
+      console.log(error);
+    }
+  }, [debouncedUsername]);
 
   useEffect(() => {
     if (debouncedUsername.length > 1) {
-      const checkUsername = async () => {
-        try {
-          await service.getCheckUsername({ username: debouncedUsername });
-          form.clearErrors("username");
-        } catch (error) {
-          form.setError("username", {
-            type: "validate",
-            message: "Este username já está em uso",
-          });
-        }
-      };
-
       checkUsername();
     }
-  }, [debouncedUsername, service, form]);
-
-  const handleUsernameChange = (inputValue: string) => {
-    form.setValue("username", inputValue);
-    setUsernameValue(inputValue);
-  };
+  }, [debouncedUsername]);
 
   const onSubmit = async (data: ICreateUser) => {
     try {
@@ -111,11 +112,10 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
                   <FormLabel>Username</FormLabel>
                   <FormControl>
                     <Input
-                      {...field}
                       startAdornment={<div className="text-[#9ca3af]">@</div>}
                       endAdornment={fieldState.error ? <X /> : <Check />}
                       placeholder="johndoe"
-                      onChange={(e) => handleUsernameChange(e.target.value)}
+                      {...field}
                     />
                   </FormControl>
                   <FormMessage />
