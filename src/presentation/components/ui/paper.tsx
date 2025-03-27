@@ -27,9 +27,9 @@ interface Props extends VariantProps<typeof paperVariants> {
   onClick?: () => void;
 }
 
-export function Paper({ children, className, onClick }: Props) {
+export function Paper({ children, className, color, onClick }: Props) {
   return (
-    <div onClick={onClick} className={cn(paperVariants({ className }))}>
+    <div onClick={onClick} className={cn(paperVariants({ className, color }))}>
       {children}
     </div>
   );
