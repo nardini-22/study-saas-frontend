@@ -1,5 +1,8 @@
 "use client";
 
+import { makePostServiceFactory } from "@/main/factories/services";
+import { TrailPage } from "@/presentation/pages";
+
 interface Props {
   params: ParamsProps;
 }
@@ -9,6 +12,5 @@ interface ParamsProps {
 }
 
 export default function Trail({ params }: Props) {
-  console.log(params.id);
-  return <div>Trail</div>;
+  return <TrailPage service={makePostServiceFactory()} trailId={params.id} />;
 }

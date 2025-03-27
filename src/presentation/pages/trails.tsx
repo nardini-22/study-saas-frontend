@@ -43,7 +43,7 @@ export function TrailsPage({ service }: Props) {
               </Paper>
             </Link>
           ))}
-        <ModalCreateTrail service={service} />
+        <ModalCreateTrail service={service} fetchTrails={fetchTrails} />
       </div>
     </div>
   );
