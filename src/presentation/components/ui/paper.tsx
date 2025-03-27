@@ -6,7 +6,7 @@ const paperVariants = cva(
   {
     variants: {
       color: {
-        default: "bg-bg",
+        default: "bg-bw",
         primary: "bg-main",
         blue: "bg-main-blue",
         orange: "bg-main-orange",
