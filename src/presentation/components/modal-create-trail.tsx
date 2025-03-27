@@ -53,7 +53,7 @@ export function ModalCreateTrail({ service }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Paper className="size-32">
+        <Paper type="button" className="size-32">
           <Plus size={24} />
         </Paper>
       </DialogTrigger>
