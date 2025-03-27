@@ -37,7 +37,7 @@ export function TrailsPage({ service }: Props) {
         {trails.length > 0 &&
           trails.map((trail) => (
             <Link key={trail.id} href={`/trails/${trail.id}`}>
-              <Paper className="flex-col p-4">
+              <Paper type="button" className="flex-col p-4">
                 <h1 className="text-2xl font-semibold">{trail.name}</h1>
                 <p>{trail.description}</p>
               </Paper>
