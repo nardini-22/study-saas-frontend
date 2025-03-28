@@ -1,4 +1,16 @@
 import { z } from "zod";
+import { PostsSchema } from "../posts";
+import { UsersSchema } from "../users";
+
+export const TrailRankingSchema = z.object({
+  sequential: z.number(),
+  user: UsersSchema.pick({
+    id: true,
+    name: true,
+    username: true,
+    profilePicture: true,
+  }),
+});
 
 export const TrailsSchema = z.object({
   id: z.string().uuid(),
@@ -10,6 +22,8 @@ export const TrailsSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
+  trail_post: z.array(PostsSchema),
+  trail_ranking: z.array(TrailRankingSchema),
 });
 
 export const CreateTrailSchema = TrailsSchema.pick({
