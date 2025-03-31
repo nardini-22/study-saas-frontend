@@ -52,4 +52,8 @@
 body {
   background: var(--bg);
   font-family: var(--font-overpass);
+  padding: 1rem 2rem !important;
+  @media (width >= 64rem) {
+    padding: 1rem 9rem !important;
+  }
 }

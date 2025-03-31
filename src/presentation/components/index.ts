@@ -4,3 +4,4 @@ export * from "./modal-create-user";
 export * from "./providers";
 export * from "./modal-create-trail";
 export * from "./modal-create-post";
+export * from "./header";
