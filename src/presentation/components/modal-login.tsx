@@ -34,7 +34,7 @@ export function ModalLogin({ auth }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm">Sign up</Button>
+        <Button size="sm">Entrar</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

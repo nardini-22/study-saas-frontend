@@ -5,3 +5,5 @@ export * from "./label";
 export * from "./input";
 export * from "./paper";
 export * from "./textarea";
+export * from "./avatar";
+export * from "./skeleton";
