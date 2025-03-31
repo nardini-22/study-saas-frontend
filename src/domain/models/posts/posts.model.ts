@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CreatePostSchema, PostsSchemas } from "./posts.schema";
+import { CreatePostSchema, PostsSchema } from "./posts.schema";
 
-export type IPosts = z.infer<typeof PostsSchemas>;
+export type IPosts = z.infer<typeof PostsSchema>;
 export type ICreatePost = z.infer<typeof CreatePostSchema>;

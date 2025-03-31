@@ -25,8 +25,20 @@ export const trailService: IBaseService<ITrailsContract> = ({ httpClient }) => {
     return response.data;
   };
 
+  const getTrail = async ({ trailId }: ITrailsContract.getTrailProps) => {
+    const response = await httpClient.request<
+      unknown,
+      ITrailsContract.getTrailResponse
+    >({
+      method: "GET",
+      url: `trail/${trailId}`,
+    });
+    return response.data;
+  };
+
   return {
     createTrail,
     getTrails,
+    getTrail,
   };
 };

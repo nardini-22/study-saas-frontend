@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { UsersSchema } from "../users";
 
-export const PostsSchemas = z.object({
+export const PostsSchema = z.object({
   id: z.string().uuid(),
   trailId: z.string().uuid(),
   title: z.string().min(2, {
@@ -9,9 +10,15 @@ export const PostsSchemas = z.object({
   content: z.string().optional(),
   picture: z.string().optional(),
   ownerId: z.string().uuid(),
+  user: UsersSchema.pick({
+    id: true,
+    name: true,
+    username: true,
+    profilePicture: true,
+  }),
 });
 
-export const CreatePostSchema = PostsSchemas.pick({
+export const CreatePostSchema = PostsSchema.pick({
   title: true,
   content: true,
 });

@@ -5,6 +5,9 @@ export interface ITrailsContract {
     props: ITrailsContract.createTrailProps
   ): Promise<ITrailsContract.createTrailResponse>;
   getTrails(): Promise<ITrailsContract.getTrailsResponse>;
+  getTrail(
+    props: ITrailsContract.getTrailProps
+  ): Promise<ITrailsContract.getTrailResponse>;
 }
 
 export namespace ITrailsContract {
@@ -13,4 +16,8 @@ export namespace ITrailsContract {
   };
   export type createTrailResponse = ITrails;
   export type getTrailsResponse = Array<ITrails>;
+  export type getTrailProps = {
+    trailId: string;
+  };
+  export type getTrailResponse = ITrails;
 }

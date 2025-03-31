@@ -29,9 +29,10 @@ import { useState } from "react";
 interface Props {
   service: IPostsContract;
   trailId: string;
+  fetchTrail: () => Promise<void>;
 }
 
-export function ModalCreatePost({ service, trailId }: Props) {
+export function ModalCreatePost({ service, trailId, fetchTrail }: Props) {
   const form = useForm<ICreatePost>({
     resolver: zodResolver(CreatePostSchema),
     defaultValues: {
@@ -45,6 +46,7 @@ export function ModalCreatePost({ service, trailId }: Props) {
     try {
       await service.createPost({ body: data, trailId });
       setOpen(false);
+      fetchTrail();
     } catch (err) {
       console.log(err);
     }
