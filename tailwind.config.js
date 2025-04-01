@@ -44,6 +44,7 @@ module.exports = {
         "main-pink": "var(--main-pink)",
         "main-green": "var(--main-green)",
         "main-purple": "var(--main-purple)",
+        "secondary-bg": "var(--secondary-bg)",
         overlay: "var(--overlay)",
         bg: "var(--bg)",
         bw: "var(--bw)",

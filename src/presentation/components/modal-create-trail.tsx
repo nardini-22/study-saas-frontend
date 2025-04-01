@@ -31,9 +31,10 @@ import { useState } from "react";
 interface Props {
   service: ITrailsContract;
   fetchTrails: () => Promise<void>;
+  trigger: React.ReactNode;
 }
 
-export function ModalCreateTrail({ service, fetchTrails }: Props) {
+export function ModalCreateTrail({ service, fetchTrails, trigger }: Props) {
   const form = useForm<ICreateTrail>({
     resolver: zodResolver(CreateTrailSchema),
     defaultValues: {
@@ -54,11 +55,7 @@ export function ModalCreateTrail({ service, fetchTrails }: Props) {
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Paper type="button" className="size-32">
-          <Plus size={24} />
-        </Paper>
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Nova trilha</DialogTitle>
