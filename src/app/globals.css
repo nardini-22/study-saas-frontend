@@ -52,4 +52,17 @@
 body {
   background: var(--bg);
   font-family: var(--font-overpass);
+  padding: 1rem 2rem !important;
+  overflow: hidden;
+  @media (width >= 64rem) {
+    padding: 1rem 9rem !important;
+  }
+}
+
+@layer base {
+  .text-shadow {
+    text-shadow: 4px 4px 0px #000000, 1px 1px 0 #000, -1px -1px 0 #000,
+      1px -1px 0 #000, -1px 1px 0 #000, 0 1px 0 #000, 1px 0 0 #000,
+      0 -1px 0 #000, -1px 0 0 #000;
+  }
 }

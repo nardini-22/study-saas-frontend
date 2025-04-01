@@ -5,6 +5,7 @@ import { IUsers, IUsersContract } from "@/domain/models/users";
 import { createClient } from "@/infra/gateway/supabase";
 import { ModalCreateUser } from "../components";
 import { NotFoundError } from "@/domain/errors";
+import { useToast } from "../hooks";
 
 export interface IContext {
   loading: boolean;
@@ -34,6 +35,7 @@ export function AuthProvider({ children, service }: AuthProviderProps) {
   const [user, setUser] = useState<IUsers | undefined>(undefined);
 
   const supabase = createClient();
+  const { toast } = useToast();
 
   const handleCheckUser = async () => {
     setLoading(true);
@@ -57,6 +59,11 @@ export function AuthProvider({ children, service }: AuthProviderProps) {
         setUser(undefined);
       }
       setError(err instanceof Error ? err : new Error("Unknown error"));
+      toast({
+        variant: "error",
+        title: "Erro ao carregar os dados!",
+        description: "Por favor, tente novamente mais tarde.",
+      });
     } finally {
       setLoading(false);
     }

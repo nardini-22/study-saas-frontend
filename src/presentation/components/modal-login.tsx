@@ -10,37 +10,46 @@ import {
   DialogTrigger,
   Button,
 } from "@/presentation/components";
+import { useToast } from "../hooks";
 
 interface Props {
   auth: IAuthContract;
+  trigger: React.ReactNode;
 }
 
-export function ModalLogin({ auth }: Props) {
+export function ModalLogin({ auth, trigger }: Props) {
+  const { toast } = useToast();
   const redirectTo = "/trails";
   const handleLoginGoogle = async () => {
     try {
       await auth.loginWithGoogle({ redirectTo });
     } catch (error) {
-      console.log(error);
+      toast({
+        variant: "error",
+        title: "Erro ao carregar os dados!",
+        description: "Por favor, tente novamente mais tarde.",
+      });
     }
   };
   const handleLoginGithub = async () => {
     try {
       await auth.loginWithGithub({ redirectTo });
     } catch (error) {
-      console.log(error);
+      toast({
+        variant: "error",
+        title: "Erro ao carregar os dados!",
+        description: "Por favor, tente novamente mais tarde.",
+      });
     }
   };
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button>Sign up</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Edit profile</DialogTitle>
+          <DialogTitle>Faça o login</DialogTitle>
           <DialogDescription>
-            Make changes to your profile here. Click save when youre done.
+            Para começar a trilhar entre com alguma conta.
           </DialogDescription>
         </DialogHeader>
         <div className="flex justify-center gap-4">
