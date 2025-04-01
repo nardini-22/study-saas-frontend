@@ -19,18 +19,22 @@ import {
 import { useAuth } from "../hooks";
 import { LogOut, User } from "lucide-react";
 import { createClient } from "@/infra/gateway/supabase";
+import { useRouter } from "next/navigation";
 
 interface Props {
   auth: IAuthContract;
 }
 
 export function Header({ auth }: Props) {
-  const { user, loading } = useAuth();
+  const { user, loading, setUser } = useAuth();
+  const { push } = useRouter();
   const supabase = createClient();
 
   const signOut = async () => {
     try {
       await supabase.auth.signOut({ scope: "local" });
+      setUser(undefined);
+      push("/");
     } catch (err) {
       console.log(err);
     }

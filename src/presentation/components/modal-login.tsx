@@ -14,36 +14,38 @@ import { useToast } from "../hooks";
 
 interface Props {
   auth: IAuthContract;
-  trigger: React.ReactNode;
+  trigger?: React.ReactNode;
+  open?: boolean;
+  setOpen?: (b: boolean) => void;
 }
 
-export function ModalLogin({ auth, trigger }: Props) {
+export function ModalLogin({ auth, trigger, open, setOpen }: Props) {
   const { toast } = useToast();
-  const redirectTo = "/trails";
+
   const handleLoginGoogle = async () => {
     try {
-      await auth.loginWithGoogle({ redirectTo });
+      await auth.loginWithGoogle();
     } catch (error) {
       toast({
         variant: "error",
-        title: "Erro ao carregar os dados!",
+        title: "Erro ao efetuar login!",
         description: "Por favor, tente novamente mais tarde.",
       });
     }
   };
   const handleLoginGithub = async () => {
     try {
-      await auth.loginWithGithub({ redirectTo });
+      await auth.loginWithGithub();
     } catch (error) {
       toast({
         variant: "error",
-        title: "Erro ao carregar os dados!",
+        title: "Erro ao efetuar login!",
         description: "Por favor, tente novamente mais tarde.",
       });
     }
   };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>

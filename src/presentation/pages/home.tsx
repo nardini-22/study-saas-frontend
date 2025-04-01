@@ -3,12 +3,16 @@
 import { IAuthContract } from "@/domain/auth";
 import { Button, ModalLogin } from "../components";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../hooks";
 
 interface Props {
   auth: IAuthContract;
 }
 
 export function HomePage({ auth }: Props) {
+  const { push } = useRouter();
+  const { user } = useAuth();
   const phrases = [
     "Aprender é um hábito. Torne-o visível.",
     "Aprenda todos os dias, evolua sempre.",
@@ -25,9 +29,18 @@ export function HomePage({ auth }: Props) {
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
   const [currentPhraseIndex, setCurrentPhraseIndex] = useState<number>(0);
   const [typingSpeed, setTypingSpeed] = useState<number>(150);
+  const [open, setOpen] = useState<boolean>(false);
 
   const currentPhrase = phrases[currentPhraseIndex];
   const typingRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleStartTrail = () => {
+    if (user) {
+      push("/trails");
+      return;
+    }
+    setOpen(true);
+  };
 
   useEffect(() => {
     const handleTyping = () => {
@@ -70,20 +83,16 @@ export function HomePage({ auth }: Props) {
         </h1>
       </div>
       <div className="font-bold text-2xl text-center">
-        <p className="relative">
+        <p className="relative text-lg">
           {displayText || "\u200B"}
           <span className="absolute -ml-[1px] animate-blink">|</span>
         </p>
       </div>
       <div className="flex flex-col gap-4">
-        <ModalLogin
-          trigger={
-            <Button size="lg" className="h-14">
-              Comece a trilhar
-            </Button>
-          }
-          auth={auth}
-        />
+        <Button size="lg" onClick={handleStartTrail} className="h-14">
+          Comece a trilhar
+        </Button>
+        <ModalLogin open={open} setOpen={setOpen} auth={auth} />
         <Button size="sm" variant="neutral">
           Planos
         </Button>
