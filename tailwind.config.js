@@ -26,11 +26,16 @@ module.exports = {
           "60%, 79.99%": { color: "var(--main-purple)" },
           "80%, 100%": { color: "var(--main-green)" },
         },
+        blink: {
+          "0%, 100%": { opacity: 1 },
+          "50%": { opacity: 0 },
+        },
       },
       animation: {
         colorT: "colorT 9s step-end infinite",
         colorI: "colorI 9s step-end infinite",
         colorL: "colorL 9s step-end infinite",
+        blink: "blink 0.75s step-end infinite",
       },
       colors: {
         main: "var(--main)",
