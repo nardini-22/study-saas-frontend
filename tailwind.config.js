@@ -4,6 +4,34 @@ module.exports = {
   content: ["./src/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
     extend: {
+      keyframes: {
+        colorT: {
+          "0%, 19.99%": { color: "var(--main-blue)" },
+          "20%, 39.99%": { color: "var(--main-orange)" },
+          "40%, 59.99% ": { color: "var(--main-pink)" },
+          "60%, 79.99%": { color: "var(--main-green)" },
+          "80%, 100%": { color: "var(--main-purple)" },
+        },
+        colorI: {
+          "0%, 19.99%": { color: "var(--main-purple)" },
+          "20%, 39.99%": { color: "var(--main-green)" },
+          "40%, 59.99% ": { color: "var(--main-orange)" },
+          "60%, 79.99%": { color: "var(--main-pink)" },
+          "80%, 100%": { color: "var(--main-blue)" },
+        },
+        colorL: {
+          "0%, 19.99%": { color: "var(--main-orange)" },
+          "20%, 39.99%": { color: "var(--main-pink)" },
+          "40%, 59.99% ": { color: "var(--main-blue)" },
+          "60%, 79.99%": { color: "var(--main-purple)" },
+          "80%, 100%": { color: "var(--main-green)" },
+        },
+      },
+      animation: {
+        colorT: "colorT 9s step-end infinite",
+        colorI: "colorI 9s step-end infinite",
+        colorL: "colorL 9s step-end infinite",
+      },
       colors: {
         main: "var(--main)",
         "main-blue": "var(--main-blue)",
