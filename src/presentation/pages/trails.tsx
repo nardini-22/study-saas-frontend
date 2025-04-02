@@ -5,21 +5,29 @@ import { ModalCreateTrail, Paper, Skeleton } from "../components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Footprints, Plus } from "lucide-react";
+import { useToast } from "../hooks";
 
 interface Props {
   service: ITrailsContract;
 }
 
 export function TrailsPage({ service }: Props) {
+  const { toast } = useToast();
+
   const [trails, setTrails] = useState<Array<ITrails>>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
   const fetchTrails = async () => {
     setLoading(true);
     try {
       const data = await service.getTrails();
       setTrails(data);
     } catch (err) {
-      console.log(err);
+      toast({
+        variant: "error",
+        title: "Erro ao carregar dados!",
+        description: "Por favor, tente novamente mais tarde.",
+      });
     } finally {
       setLoading(false);
     }
@@ -73,6 +81,7 @@ export function TrailsPage({ service }: Props) {
             }
             service={service}
             fetchTrails={fetchTrails}
+            loading={loading}
           />
         </div>
       </div>
