@@ -9,3 +9,4 @@ export * from "./avatar";
 export * from "./skeleton";
 export * from "./toaster";
 export * from "./toast";
+export * from "./dropdown-menu";

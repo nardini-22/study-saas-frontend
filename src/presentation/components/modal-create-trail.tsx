@@ -27,13 +27,21 @@ import {
 } from "@/domain/models/trails";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
+import { useToast } from "../hooks";
 
 interface Props {
   service: ITrailsContract;
   fetchTrails: () => Promise<void>;
+  trigger: React.ReactNode;
+  loading: boolean;
 }
 
-export function ModalCreateTrail({ service, fetchTrails }: Props) {
+export function ModalCreateTrail({
+  service,
+  fetchTrails,
+  trigger,
+  loading,
+}: Props) {
   const form = useForm<ICreateTrail>({
     resolver: zodResolver(CreateTrailSchema),
     defaultValues: {
@@ -41,6 +49,8 @@ export function ModalCreateTrail({ service, fetchTrails }: Props) {
       description: "",
     },
   });
+  const { toast } = useToast();
+
   const [open, setOpen] = useState<boolean>(false);
 
   const onSubmit = async (data: ICreateTrail) => {
@@ -48,17 +58,18 @@ export function ModalCreateTrail({ service, fetchTrails }: Props) {
       await service.createTrail({ body: data });
       setOpen(false);
       fetchTrails();
+      form.reset();
     } catch (err) {
-      console.log(err);
+      toast({
+        variant: "error",
+        title: "Erro ao criar trilha!",
+        description: "Por favor, tente novamente mais tarde.",
+      });
     }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Paper type="button" className="size-32">
-          <Plus size={24} />
-        </Paper>
-      </DialogTrigger>
+      <DialogTrigger asChild>{trigger}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Nova trilha</DialogTitle>
@@ -69,38 +80,44 @@ export function ModalCreateTrail({ service, fetchTrails }: Props) {
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-2 font-bold"
+            className="space-y-8 font-bold"
           >
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Nome</FormLabel>
-                  <FormControl>
-                    <Input placeholder="John Doe" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descrição</FormLabel>
-                  <FormControl>
-                    <Textarea
-                      placeholder="Adiciona uma descrição..."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Salvar trilha</Button>
+            <div className="space-y-2">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Nome da trilha</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Adicione um nome..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descrição</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Adiciona uma descrição..."
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="flex justify-end">
+              <Button type="submit" disabled={loading}>
+                Criar trilha
+              </Button>
+            </div>
           </form>
         </Form>
       </DialogContent>

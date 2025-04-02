@@ -1,3 +1,5 @@
+"use client";
+
 import { IAuthContract } from "@/domain/auth";
 import { ModalLogin } from "./modal-login";
 import {
@@ -7,15 +9,36 @@ import {
   AvatarFallback,
   Skeleton,
   Button,
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuItem,
 } from "./ui";
 import { useAuth } from "../hooks";
+import { LogOut, User } from "lucide-react";
+import { createClient } from "@/infra/gateway/supabase";
+import { useRouter } from "next/navigation";
 
 interface Props {
   auth: IAuthContract;
 }
 
 export function Header({ auth }: Props) {
-  const { user, loading } = useAuth();
+  const { user, loading, setUser } = useAuth();
+  const { push } = useRouter();
+  const supabase = createClient();
+
+  const signOut = async () => {
+    try {
+      await supabase.auth.signOut({ scope: "local" });
+      setUser(undefined);
+      push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <Paper className="px-4 py-2 flex justify-between items-center fixed left-8 right-8 lg:left-36 lg:right-36 z-10">
@@ -28,15 +51,35 @@ export function Header({ auth }: Props) {
       ) : !user ? (
         <ModalLogin trigger={<Button size="sm">Entrar</Button>} auth={auth} />
       ) : (
-        <div className="flex items-center gap-4">
-          <Avatar>
-            <AvatarImage src={user.profilePicture} />
-            <AvatarFallback className="font-bold">
-              {user.name.substring(0, 2).toUpperCase()}
-            </AvatarFallback>
-          </Avatar>
-          <h1 className="font-bold lg:block hidden">{user.name}</h1>
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex items-center gap-4 cursor-pointer">
+              <Avatar>
+                <AvatarImage src={user.profilePicture} />
+                <AvatarFallback className="font-bold">
+                  {user.name.substring(0, 2).toUpperCase()}
+                </AvatarFallback>
+              </Avatar>
+              <h1 className="font-bold lg:block hidden">{user.name}</h1>
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-56">
+            <DropdownMenuLabel>
+              <span className="lg:block hidden">Minha conta</span>
+              <span className="lg:hidden block">{user.name}</span>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <User />
+              <span>Perfil</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={signOut}>
+              <LogOut />
+              <span>Sair</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       )}
     </Paper>
   );

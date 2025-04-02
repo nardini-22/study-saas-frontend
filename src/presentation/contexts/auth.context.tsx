@@ -12,6 +12,7 @@ export interface IContext {
   error: Error | null;
   isNewUser: boolean;
   user: IUsers | undefined;
+  setUser: (u?: IUsers) => void;
 }
 
 const defaultValues = {
@@ -19,6 +20,7 @@ const defaultValues = {
   error: null,
   isNewUser: false,
   user: undefined,
+  setUser: () => {},
 };
 
 export const AuthContext = createContext<IContext>(defaultValues);
@@ -80,6 +82,7 @@ export function AuthProvider({ children, service }: AuthProviderProps) {
         error,
         isNewUser,
         user,
+        setUser,
       }}
     >
       <ModalCreateUser

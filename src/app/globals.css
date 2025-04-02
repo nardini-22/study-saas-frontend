@@ -12,6 +12,7 @@
     --main-green: #a3e636;
     --main-purple: #a388ee;
     --overlay: rgba(0, 0, 0, 0.8);
+    --secondary-bg: #fffcfa;
 
     --bg: #fef2e8;
     --bw: #fff;
@@ -53,7 +54,6 @@ body {
   background: var(--bg);
   font-family: var(--font-overpass);
   padding: 1rem 2rem !important;
-  overflow: hidden;
   @media (width >= 64rem) {
     padding: 1rem 9rem !important;
   }
