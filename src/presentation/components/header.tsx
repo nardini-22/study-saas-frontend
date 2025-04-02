@@ -60,13 +60,19 @@ export function Header({ auth }: Props) {
                   {user.name.substring(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <h1 className="font-bold lg:block hidden">{user.name}</h1>
+              <div className="lg:block hidden">
+                <h2 className="text-lg font-bold">{user.name}</h2>
+                <p className="font-normal">@{user.username}</p>
+              </div>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>
-              <span className="lg:block hidden">Minha conta</span>
-              <span className="lg:hidden block">{user.name}</span>
+              <p className="lg:block hidden">Minha conta</p>
+              <div className="lg:hidden block">
+                <h2 className="text-lg font-bold">{user.name}</h2>
+                <p className="font-normal">@{user.username}</p>
+              </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
