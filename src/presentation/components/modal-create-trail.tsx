@@ -115,7 +115,7 @@ export function ModalCreateTrail({
             </div>
             <div className="flex justify-end">
               <Button type="submit" disabled={loading}>
-                Salvar trilha
+                Criar trilha
               </Button>
             </div>
           </form>

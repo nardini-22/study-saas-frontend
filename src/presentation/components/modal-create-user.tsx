@@ -83,7 +83,7 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
         <DialogHeader>
           <DialogTitle>Completar perfil</DialogTitle>
           <DialogDescription>
-            Para uma melhor experiência, nos ajude inserindo essas informações
+            Para uma melhor experiência, nos ajude inserindo essas informações!
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -98,7 +98,7 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
                 <FormItem>
                   <FormLabel>Nome</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} />
+                    <Input placeholder="Adicione um nome..." {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -109,12 +109,12 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
               name="username"
               render={({ field, fieldState }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>Usuário</FormLabel>
                   <FormControl>
                     <Input
                       startAdornment={<div className="text-[#9ca3af]">@</div>}
                       endAdornment={fieldState.error ? <X /> : <Check />}
-                      placeholder="johndoe"
+                      placeholder="Adicione um usuário..."
                       {...field}
                     />
                   </FormControl>
