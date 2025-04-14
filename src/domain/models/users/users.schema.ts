@@ -23,6 +23,11 @@ export const UsersSchema = z.object({
   enabled: z.boolean(),
   createdAt: z.string().datetime(),
   updatedAt: z.string().datetime(),
+  planId: z.number(),
+  plan: z.object({
+    name: z.string(),
+    maxTrails: z.number(),
+  }),
 });
 
 export const CreateUserSchema = UsersSchema.pick({

@@ -1,8 +1,15 @@
 import { IPostsContract } from "@/domain/models/posts";
-import { ModalCreatePost, Paper, Skeleton } from "../components";
+import {
+  Button,
+  ModalCreatePost,
+  ModalPlans,
+  Paper,
+  Skeleton,
+} from "../components";
 import { useEffect, useState } from "react";
 import { ITrails, ITrailsContract } from "@/domain/models/trails";
-import { useToast } from "../hooks";
+import { useAuth, useToast } from "../hooks";
+import { LockKeyhole } from "lucide-react";
 
 interface Props {
   postService: IPostsContract;
@@ -12,6 +19,7 @@ interface Props {
 
 export function TrailPage({ postService, trailsService, trailId }: Props) {
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const [trail, setTrail] = useState<ITrails | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
@@ -52,12 +60,24 @@ export function TrailPage({ postService, trailsService, trailId }: Props) {
           <h1 className="text-[2rem] font-semibold">{trail?.name}</h1>
           <p className="text-sm">{trail?.description}</p>
         </div>
-        <ModalCreatePost
-          service={postService}
-          trailId={trailId}
-          fetchTrail={fetchTrail}
-          loading={loading}
-        />
+        {user?.plan.maxTrails !== undefined &&
+        trail?.trail_post.length !== undefined &&
+        trail?.trail_post.length >= user.plan.maxTrails ? (
+          <ModalPlans
+            trigger={
+              <Button>
+                <LockKeyhole /> Novo Post
+              </Button>
+            }
+          />
+        ) : (
+          <ModalCreatePost
+            service={postService}
+            trailId={trailId}
+            fetchTrail={fetchTrail}
+            loading={loading}
+          />
+        )}
       </div>
       <div className="bg-secondary-bg min-h-screen p-8 rounded-base flex flex-col items-end gap-8 inset-0 w-full -z-10 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
         {loading ? (

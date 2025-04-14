@@ -1,6 +1,5 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import {
   Button,
   Dialog,
@@ -15,7 +14,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Paper,
   Textarea,
   Form,
 } from "./ui";

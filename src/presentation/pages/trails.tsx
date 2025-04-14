@@ -1,11 +1,11 @@
 "use client";
 
 import { ITrails, ITrailsContract } from "@/domain/models/trails";
-import { ModalCreateTrail, Paper, Skeleton } from "../components";
+import { ModalCreateTrail, Paper, Skeleton, ModalPlans } from "../components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Footprints, Plus } from "lucide-react";
-import { useToast } from "../hooks";
+import { Footprints, LockKeyhole, Plus } from "lucide-react";
+import { useAuth, useToast } from "../hooks";
 
 interface Props {
   service: ITrailsContract;
@@ -13,6 +13,7 @@ interface Props {
 
 export function TrailsPage({ service }: Props) {
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const [trails, setTrails] = useState<Array<ITrails>>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -73,15 +74,26 @@ export function TrailsPage({ service }: Props) {
               </Link>
             ))
           )}
-          <ModalCreateTrail
-            trigger={
-              <Paper type="button" className="h-36">
-                <Plus size={24} />
-              </Paper>
-            }
-            service={service}
-            fetchTrails={fetchTrails}
-          />
+          {user?.plan.maxTrails !== undefined &&
+          trails.length >= user.plan.maxTrails ? (
+            <ModalPlans
+              trigger={
+                <Paper type="button" className="h-36">
+                  <LockKeyhole size={24} />
+                </Paper>
+              }
+            />
+          ) : (
+            <ModalCreateTrail
+              trigger={
+                <Paper type="button" className="h-36">
+                  <Plus size={24} />
+                </Paper>
+              }
+              service={service}
+              fetchTrails={fetchTrails}
+            />
+          )}
         </div>
       </div>
     </>
