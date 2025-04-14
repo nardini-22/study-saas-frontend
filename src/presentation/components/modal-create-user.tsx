@@ -41,6 +41,7 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
       name: "",
       username: "",
     },
+    mode: "onChange",
   });
   const { handleCheckUser } = useAuth();
   const { toast } = useToast();
@@ -61,14 +62,15 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
       setIsAllowedUsername(true);
     } catch (error) {
       if (error instanceof ConflictError) {
-        setIsAllowedUsername(false);
-        form.setError("username", {
-          type: "validate",
-          message: "Este username já está em uso",
-        });
-        return;
+        if (error.message === "Username is not available") {
+          setIsAllowedUsername(false);
+          form.setError("username", {
+            type: "validate",
+            message: "Este usuário já está em uso",
+          });
+          return;
+        }
       }
-      console.log(error);
     }
   }, [debouncedUsername]);
 
@@ -77,7 +79,9 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
       setIsAllowedUsername(undefined);
       return;
     }
-    checkUsername();
+    if (Object.entries(form.formState.errors).length === 0) {
+      checkUsername();
+    }
   }, [debouncedUsername]);
 
   const onSubmit = async (data: ICreateUser) => {

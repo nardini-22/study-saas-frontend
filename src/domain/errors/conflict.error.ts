@@ -5,7 +5,8 @@ interface ConflictErrorProps {
 
 class ConflictError extends Error {
   constructor({ code, message }: ConflictErrorProps) {
-    super(code || message);
+    super(code);
+    this.message = message || code;
     this.name = "ConflictError";
   }
 }
