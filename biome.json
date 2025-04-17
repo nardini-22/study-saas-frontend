@@ -33,7 +33,8 @@
       },
       "suspicious": {
         "noAssignInExpressions": "off",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noExplicitAny": "off"
       },
       "a11y": {
         "useKeyWithClickEvents": "off"

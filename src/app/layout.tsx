@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import localFont from "next/font/local";
 import { Providers } from "@/presentation/components";
-
-const tacticSans = localFont({
-  src: "../../public/fonts/TacticSans-Bld.woff2",
-  variable: "--font-tactic-sans",
-});
+import { GeistSans } from "geist/font/sans";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,8 +14,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={tacticSans.variable}>
+    <html
+      lang="en"
+      className={`${GeistSans.className} antialiased dark:bg-gray-950`}
+    >
+      <body>
         <Providers>{children}</Providers>
       </body>
     </html>
