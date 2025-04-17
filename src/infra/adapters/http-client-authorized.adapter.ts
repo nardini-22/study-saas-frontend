@@ -74,6 +74,7 @@ export function httpClientAuthorizedAdapter(): IHttpClient {
         });
       case 409:
         throw new ConflictError({
+          message: (results as { message: string }).message,
           code: response.status.toString(),
         });
       default:

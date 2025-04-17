@@ -1,11 +1,11 @@
 "use client";
 
 import { ITrails, ITrailsContract } from "@/domain/models/trails";
-import { ModalCreateTrail, Paper, Skeleton } from "../components";
+import { ModalCreateTrail, Paper, Skeleton, ModalPlans } from "../components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Footprints, Plus } from "lucide-react";
-import { useToast } from "../hooks";
+import { Footprints, LockKeyhole, Plus } from "lucide-react";
+import { useAuth, useToast } from "../hooks";
 
 interface Props {
   service: ITrailsContract;
@@ -13,6 +13,7 @@ interface Props {
 
 export function TrailsPage({ service }: Props) {
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const [trails, setTrails] = useState<Array<ITrails>>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -62,9 +63,9 @@ export function TrailsPage({ service }: Props) {
               <Link key={trail.id} href={`/trails/${trail.id}`}>
                 <Paper type="button" className="flex-col h-36 p-4 text-center">
                   <div className="w-full">
-                    <h1 className="text-2xl font-bold truncate overflow-hidden">
+                    <h2 className="text-2xl font-bold truncate overflow-hidden">
                       {trail.name}
-                    </h1>
+                    </h2>
                     <p className="overflow-hidden break-words">
                       {trail.description}
                     </p>
@@ -73,16 +74,26 @@ export function TrailsPage({ service }: Props) {
               </Link>
             ))
           )}
-          <ModalCreateTrail
-            trigger={
-              <Paper type="button" className="h-36">
-                <Plus size={24} />
-              </Paper>
-            }
-            service={service}
-            fetchTrails={fetchTrails}
-            loading={loading}
-          />
+          {user?.plan.maxTrails !== undefined &&
+          trails.length >= user.plan.maxTrails ? (
+            <ModalPlans
+              trigger={
+                <Paper type="button" className="h-36">
+                  <LockKeyhole size={24} />
+                </Paper>
+              }
+            />
+          ) : (
+            <ModalCreateTrail
+              trigger={
+                <Paper type="button" className="h-36">
+                  <Plus size={24} />
+                </Paper>
+              }
+              service={service}
+              fetchTrails={fetchTrails}
+            />
+          )}
         </div>
       </div>
     </>

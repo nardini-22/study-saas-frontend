@@ -5,21 +5,19 @@ import {
   makeTrailServiceFactory,
 } from "@/main/factories/services";
 import { TrailPage } from "@/presentation/pages";
+import { use } from "react";
 
 interface Props {
-  params: ParamsProps;
-}
-
-interface ParamsProps {
-  id: string;
+  params: Promise<{ id: string }>;
 }
 
 export default function Trail({ params }: Props) {
+  const { id } = use(params);
   return (
     <TrailPage
       postService={makePostServiceFactory()}
       trailsService={makeTrailServiceFactory()}
-      trailId={params.id}
+      trailId={id}
     />
   );
 }

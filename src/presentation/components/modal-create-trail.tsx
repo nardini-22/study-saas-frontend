@@ -1,6 +1,5 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import {
   Button,
   Dialog,
@@ -15,7 +14,6 @@ import {
   FormLabel,
   FormMessage,
   Input,
-  Paper,
   Textarea,
   Form,
 } from "./ui";
@@ -33,15 +31,9 @@ interface Props {
   service: ITrailsContract;
   fetchTrails: () => Promise<void>;
   trigger: React.ReactNode;
-  loading: boolean;
 }
 
-export function ModalCreateTrail({
-  service,
-  fetchTrails,
-  trigger,
-  loading,
-}: Props) {
+export function ModalCreateTrail({ service, fetchTrails, trigger }: Props) {
   const form = useForm<ICreateTrail>({
     resolver: zodResolver(CreateTrailSchema),
     defaultValues: {
@@ -52,8 +44,10 @@ export function ModalCreateTrail({
   const { toast } = useToast();
 
   const [open, setOpen] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: ICreateTrail) => {
+    setLoading(true);
     try {
       await service.createTrail({ body: data });
       setOpen(false);
@@ -65,12 +59,14 @@ export function ModalCreateTrail({
         title: "Erro ao criar trilha!",
         description: "Por favor, tente novamente mais tarde.",
       });
+    } finally {
+      setLoading(false);
     }
   };
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent loading={loading} className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Nova trilha</DialogTitle>
           <DialogDescription>

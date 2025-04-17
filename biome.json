@@ -32,7 +32,8 @@
         "useExhaustiveDependencies": "off"
       },
       "suspicious": {
-        "noAssignInExpressions": "off"
+        "noAssignInExpressions": "off",
+        "noArrayIndexKey": "off"
       },
       "a11y": {
         "useKeyWithClickEvents": "off"
