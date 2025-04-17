@@ -1,7 +1,144 @@
-@import url("https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@300..700&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Overpass+Mono:wght@300..700&display=swap')
+layer(base);
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --animate-color-t: colorT 9s step-end infinite;
+  --animate-color-i: colorI 9s step-end infinite;
+  --animate-color-l: colorL 9s step-end infinite;
+  --animate-blink: blink 0.75s step-end infinite;
+
+  --color-main: var(--main);
+  --color-main-blue: var(--main-blue);
+  --color-main-orange: var(--main-orange);
+  --color-main-pink: var(--main-pink);
+  --color-main-green: var(--main-green);
+  --color-main-purple: var(--main-purple);
+  --color-secondary-bg: var(--secondary-bg);
+  --color-overlay: var(--overlay);
+  --color-bg: var(--bg);
+  --color-bw: var(--bw);
+  --color-blank: var(--blank);
+  --color-text: var(--text);
+  --color-mtext: var(--mtext);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-ring-offset: var(--ring-offset);
+  --color-secondary-black: #212121;
+
+  --radius-base: 5px;
+
+  --shadow-shadow: var(--shadow);
+
+  --translate-box-shadow-x: 4px;
+  --translate-box-shadow-y: 4px;
+  --translate-reverse-box-shadow-x: -4px;
+  --translate-reverse-box-shadow-y: -4px;
+
+  --font-overpass: var(--font-overpass);
+  --font-tactic-sans: var(--font-tactic-sans);
+
+  --font-weight-base: 500;
+  --font-weight-heading: 700;
+
+  @keyframes colorT {
+    0%,
+    19.99% {
+      color: var(--main-blue);
+    }
+    20%,
+    39.99% {
+      color: var(--main-orange);
+    }
+    40%,
+    59.99% {
+      color: var(--main-pink);
+    }
+    60%,
+    79.99% {
+      color: var(--main-green);
+    }
+    80%,
+    100% {
+      color: var(--main-purple);
+    }
+  }
+  @keyframes colorI {
+    0%,
+    19.99% {
+      color: var(--main-purple);
+    }
+    20%,
+    39.99% {
+      color: var(--main-green);
+    }
+    40%,
+    59.99% {
+      color: var(--main-orange);
+    }
+    60%,
+    79.99% {
+      color: var(--main-pink);
+    }
+    80%,
+    100% {
+      color: var(--main-blue);
+    }
+  }
+  @keyframes colorL {
+    0%,
+    19.99% {
+      color: var(--main-orange);
+    }
+    20%,
+    39.99% {
+      color: var(--main-pink);
+    }
+    40%,
+    59.99% {
+      color: var(--main-blue);
+    }
+    60%,
+    79.99% {
+      color: var(--main-purple);
+    }
+    80%,
+    100% {
+      color: var(--main-green);
+    }
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 @layer base {
   :root {
@@ -50,12 +187,14 @@
   }
 }
 
-body {
-  background: var(--bg);
-  font-family: var(--font-overpass);
-  padding: 1rem 2rem !important;
-  @media (width >= 64rem) {
-    padding: 1rem 9rem !important;
+@layer utilities {
+  body {
+    background: var(--bg);
+    font-family: var(--font-overpass);
+    padding: 1rem 2rem !important;
+    @media (width >= 64rem) {
+      padding: 1rem 9rem !important;
+    }
   }
 }
 
