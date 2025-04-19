@@ -10,3 +10,5 @@ export * from "./skeleton";
 export * from "./toaster";
 export * from "./toast";
 export * from "./dropdown-menu";
+export * from "./card";
+export * from "./divider";
