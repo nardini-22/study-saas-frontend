@@ -14,10 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${GeistSans.className} antialiased dark:bg-gray-950`}
-    >
+    <html lang="en" className={GeistSans.className}>
       <body>
         <Providers>{children}</Providers>
       </body>

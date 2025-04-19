@@ -1,55 +1,145 @@
+// Tremor Button [v1.0.0]
+
+import React from "react";
 import { Slot } from "@radix-ui/react-slot";
-import { cva, type VariantProps } from "class-variance-authority";
+import { RiLoader2Fill } from "@remixicon/react";
+import { tv, type VariantProps } from "tailwind-variants";
 
-import * as React from "react";
+import { cn, focusRing } from "@/lib/utils";
 
-import { cn } from "@/lib";
-
-const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-base text-sm font-base ring-offset-white transition-all gap-2 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
-  {
-    variants: {
-      variant: {
-        default:
-          "text-mtext bg-main border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none",
-        noShadow: "text-mtext bg-main border-2 border-border",
-        neutral:
-          "bg-bw text-text border-2 border-border shadow-shadow hover:translate-x-boxShadowX hover:translate-y-boxShadowY hover:shadow-none",
-        reverse:
-          "text-mtext bg-main border-2 border-border hover:translate-x-reverseBoxShadowX hover:translate-y-reverseBoxShadowY hover:shadow-shadow",
-      },
-      size: {
-        default: "h-10 px-4 py-2",
-        sm: "h-9 px-3",
-        lg: "h-11 px-8",
-        icon: "h-10 w-10",
-      },
+const buttonVariants = tv({
+  base: [
+    // base
+    "cursor-pointer relative inline-flex items-center justify-center whitespace-nowrap rounded-md border px-3 py-2 text-center text-sm font-medium shadow-xs transition-all duration-100 ease-in-out",
+    // disabled
+    "disabled:pointer-events-none disabled:shadow-none",
+    // focus
+    focusRing,
+  ],
+  variants: {
+    variant: {
+      primary: [
+        // border
+        "border-transparent",
+        // text color
+        "text-text-secondary dark:text-text-secondary",
+        // background color
+        "bg-primary-500 dark:bg-primary-500",
+        // hover color
+        "hover:bg-primary-900 dark:hover:bg-primary-900",
+        // disabled
+        "disabled:bg-primary-300 disabled:text-text-secondary",
+        "dark:disabled:bg-primary-800 dark:disabled:text-secondary-400",
+      ],
+      secondary: [
+        // border
+        "border-transparent",
+        // text color
+        "text-text-secondary dark:text-text-secondary",
+        // background color
+        "bg-secondary-500 dark:bg-secondary-500",
+        // hover color
+        "hover:bg-secondary-900 dark:hover:bg-secondary-900",
+        // disabled
+        "disabled:bg-secondary-300 disabled:text-text-secondary",
+        "dark:disabled:bg-secondary-800 dark:disabled:text-secondary-400",
+      ],
+      light: [
+        // border
+        "border-gray-300 dark:border-gray-800",
+        // text color
+        "text-gray-900 dark:text-gray-50",
+        // background color
+        "bg-background-primary dark:bg-gray-950",
+        //hover color
+        "hover:text-primary-500 hover:bg-gray-200 dark:hover:bg-gray-900/60",
+        // disabled
+        "disabled:text-gray-400",
+        "dark:disabled:text-gray-600",
+      ],
+      ghost: [
+        // base
+        "shadow-none",
+        // border
+        "border-transparent",
+        // text color
+        "text-gray-900 dark:text-gray-50",
+        // hover color
+        "bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800/80",
+        // disabled
+        "disabled:text-gray-400",
+        "dark:disabled:text-gray-600",
+      ],
+      destructive: [
+        // text color
+        "text-text-secondary",
+        // border
+        "border-transparent",
+        // background color
+        "bg-red-600 dark:bg-red-700",
+        // hover color
+        "hover:bg-red-700 dark:hover:bg-red-600",
+        // disabled
+        "disabled:bg-red-300 disabled:text-text-secondary",
+        "dark:disabled:bg-red-950 dark:disabled:text-red-400",
+      ],
     },
-    defaultVariants: {
-      variant: "default",
-      size: "default",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+interface ButtonProps
+  extends React.ComponentPropsWithoutRef<"button">,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean;
+  isLoading?: boolean;
+  loadingText?: string;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+  (
+    {
+      asChild,
+      isLoading = false,
+      loadingText,
+      className,
+      disabled,
+      variant,
+      children,
+      ...props
+    }: ButtonProps,
+    forwardedRef
+  ) => {
+    const Component = asChild ? Slot : "button";
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
+      <Component
+        ref={forwardedRef}
+        className={cn(buttonVariants({ variant }), className)}
+        disabled={disabled || isLoading}
+        tremor-id="tremor-raw"
         {...props}
-      />
+      >
+        {isLoading ? (
+          <span className="pointer-events-none flex shrink-0 items-center justify-center gap-1.5">
+            <RiLoader2Fill
+              className="size-4 shrink-0 animate-spin"
+              aria-hidden="true"
+            />
+            <span className="sr-only">
+              {loadingText ? loadingText : "Loading"}
+            </span>
+            {loadingText ? loadingText : children}
+          </span>
+        ) : (
+          children
+        )}
+      </Component>
     );
   }
 );
+
 Button.displayName = "Button";
 
-export { Button, buttonVariants };
+export { Button, buttonVariants, type ButtonProps };

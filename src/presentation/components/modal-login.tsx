@@ -9,8 +9,10 @@ import {
   DialogTitle,
   DialogTrigger,
   Button,
+  Divider,
 } from "@/presentation/components";
 import { useToast } from "../hooks";
+import { RiGoogleLine, RiGithubLine } from "@remixicon/react";
 
 interface Props {
   auth: IAuthContract;
@@ -47,18 +49,31 @@ export function ModalLogin({ auth, trigger, open, setOpen }: Props) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] gap-2 flex flex-col">
         <DialogHeader>
           <DialogTitle>Faça o login</DialogTitle>
           <DialogDescription>
             Para começar a trilhar entre com alguma conta.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex justify-center gap-4">
-          <Button type="submit" size="lg" onClick={handleLoginGoogle}>
+        <Divider />
+        <div className="flex justify-center flex-col gap-4">
+          <Button
+            type="submit"
+            variant="light"
+            className="flex gap-2"
+            onClick={handleLoginGoogle}
+          >
+            <RiGoogleLine className="size-4" aria-hidden="true" />
             Google
           </Button>
-          <Button type="submit" size="lg" onClick={handleLoginGithub}>
+          <Button
+            type="submit"
+            variant="light"
+            className="flex gap-2"
+            onClick={handleLoginGithub}
+          >
+            <RiGithubLine className="size-4" aria-hidden="true" />
             Github
           </Button>
         </div>
