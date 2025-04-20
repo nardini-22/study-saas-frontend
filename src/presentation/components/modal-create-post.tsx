@@ -25,9 +25,11 @@ import {
   IPostsContract,
 } from "@/domain/models/posts";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "../hooks";
 import { RiAddLine } from "@remixicon/react";
+import { ForbiddenError } from "@/domain/errors";
+import { ModalPlans } from "./modal-plans";
 
 interface Props {
   service: IPostsContract;
@@ -47,6 +49,7 @@ export function ModalCreatePost({ service, trailId, fetchTrail }: Props) {
   const { toast } = useToast();
 
   const [open, setOpen] = useState<boolean>(false);
+  const [openModalPlans, setOpenModalPlans] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: ICreatePost) => {
@@ -57,6 +60,19 @@ export function ModalCreatePost({ service, trailId, fetchTrail }: Props) {
       fetchTrail();
       form.reset();
     } catch (err) {
+      if (err instanceof ForbiddenError) {
+        setOpen(false);
+        setOpenModalPlans(true);
+        toast({
+          variant: "warning",
+          title: "Você atingiu o limite de posts diários",
+          description:
+            "Para continuar adquira um dos nossos planos premium ou volte novamente amanhã.",
+          disableDismiss: true,
+          duration: 10000,
+        });
+        return;
+      }
       toast({
         variant: "error",
         title: "Erro ao publicar post!",
@@ -67,66 +83,75 @@ export function ModalCreatePost({ service, trailId, fetchTrail }: Props) {
     }
   };
 
+  useEffect(() => {
+    form.reset();
+  }, [open, form]);
+
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="flex gap-2">
-          <RiAddLine aria-hidden="true" />
-          Novo post
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] gap-2 flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Novo post</DialogTitle>
-          <DialogDescription>Dê mais um passo nessa trilha.</DialogDescription>
-        </DialogHeader>
-        <Divider />
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-4">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field, formState }) => (
-                  <FormItem>
-                    <FormLabel>Título</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Adicione um título..."
-                        hasError={!!formState.errors.title}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field, formState }) => (
-                  <FormItem>
-                    <FormLabel>Conteúdo</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Adiciona um conteúdo..."
-                        hasError={!!formState.errors.content}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-            <div className="flex justify-end">
-              <Button type="submit" isLoading={loading}>
-                Publicar post
-              </Button>
-            </div>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+    <>
+      <ModalPlans open={openModalPlans} setOpen={setOpenModalPlans} />
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <Button className="flex gap-2">
+            <RiAddLine aria-hidden="true" />
+            Novo post
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px] gap-2 flex flex-col">
+          <DialogHeader>
+            <DialogTitle>Novo post</DialogTitle>
+            <DialogDescription>
+              Dê mais um passo nessa trilha.
+            </DialogDescription>
+          </DialogHeader>
+          <Divider />
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="space-y-4">
+                <FormField
+                  control={form.control}
+                  name="title"
+                  render={({ field, formState }) => (
+                    <FormItem>
+                      <FormLabel>Título</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Adicione um título..."
+                          hasError={!!formState.errors.title}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="content"
+                  render={({ field, formState }) => (
+                    <FormItem>
+                      <FormLabel>Conteúdo</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Adiciona um conteúdo..."
+                          hasError={!!formState.errors.content}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex justify-end">
+                <Button type="submit" isLoading={loading}>
+                  Publicar post
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }

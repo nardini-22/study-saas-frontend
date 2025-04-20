@@ -54,32 +54,12 @@ export function TrailPage({ postService, trailsService, trailId }: Props) {
           <h1 className="text-[2rem] font-semibold">{trail?.name}</h1>
           <p className="text-sm">{trail?.description}</p>
         </div>
-        {user?.plan.maxTrails !== undefined &&
-        trail?.trail_post.length !== undefined &&
-        trail?.trail_post.length >= user.plan.maxTrails ? (
-          <ModalPlans
-            trigger={
-              <Tooltip
-                side="left"
-                content="Você chegou ao seu limite diário de posts 😔 Para desbloquear mais clique no botão para conhecer nossos planos."
-                asChild
-                open
-              >
-                <Button className="flex gap-2">
-                  <RiAddLine aria-hidden="true" />
-                  Novo post
-                </Button>
-              </Tooltip>
-            }
-          />
-        ) : (
-          <ModalCreatePost
-            service={postService}
-            trailId={trailId}
-            fetchTrail={fetchTrail}
-            loading={loading}
-          />
-        )}
+        <ModalCreatePost
+          service={postService}
+          trailId={trailId}
+          fetchTrail={fetchTrail}
+          loading={loading}
+        />
       </div>
       <div className="border border-gray-200 dark:border-gray-900 rounded-md min-h-screen p-8 rounded-base flex flex-col items-end gap-8 inset-0 w-full -z-10 bg-[radial-gradient(#D0D1D4_1px,transparent_1px)] [background-size:16px_16px]">
         {loading ? (
