@@ -5,11 +5,12 @@ import {
   ModalCreatePost,
   ModalPlans,
   Skeleton,
+  Tooltip,
 } from "../components";
 import { useEffect, useState } from "react";
 import { ITrails, ITrailsContract } from "@/domain/models/trails";
 import { useAuth, useToast } from "../hooks";
-import { RiLock2Line } from "@remixicon/react";
+import { RiAddLine } from "@remixicon/react";
 
 interface Props {
   postService: IPostsContract;
@@ -58,10 +59,17 @@ export function TrailPage({ postService, trailsService, trailId }: Props) {
         trail?.trail_post.length >= user.plan.maxTrails ? (
           <ModalPlans
             trigger={
-              <Button className="flex gap-2">
-                <RiLock2Line aria-hidden="true" />
-                Novo post
-              </Button>
+              <Tooltip
+                side="left"
+                content="Você chegou ao seu limite diário de posts 😔 Para desbloquear mais clique no botão para conhecer nossos planos."
+                asChild
+                open
+              >
+                <Button className="flex gap-2">
+                  <RiAddLine aria-hidden="true" />
+                  Novo post
+                </Button>
+              </Tooltip>
             }
           />
         ) : (

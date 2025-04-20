@@ -11,3 +11,5 @@ export * from "./toast";
 export * from "./dropdown-menu";
 export * from "./card";
 export * from "./divider";
+export * from "./badge";
+export * from "./tooltip";

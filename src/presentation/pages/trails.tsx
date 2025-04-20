@@ -1,11 +1,17 @@
 "use client";
 
 import { ITrails, ITrailsContract } from "@/domain/models/trails";
-import { ModalCreateTrail, Skeleton, ModalPlans, Card } from "../components";
+import {
+  ModalCreateTrail,
+  Skeleton,
+  ModalPlans,
+  Card,
+  Badge,
+} from "../components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth, useToast } from "../hooks";
-import { RiAddLine, RiLock2Line, RiSignpostLine } from "@remixicon/react";
+import { RiAddLine, RiDiamondLine, RiSignpostLine } from "@remixicon/react";
 import { UnauthorizedError } from "@/domain/errors";
 
 interface Props {
@@ -80,9 +86,16 @@ export function TrailsPage({ service }: Props) {
           trails.length >= user.plan.maxTrails ? (
             <ModalPlans
               trigger={
-                <Card withBorder className="h-36">
+                <Card
+                  withBorder
+                  className="h-36 cursor-pointer hover:bg-gray-100"
+                >
                   <div className="h-full flex justify-center items-center">
-                    <RiLock2Line aria-hidden="true" />
+                    <Badge className="absolute top-2 right-2" variant="default">
+                      <RiDiamondLine className="size-5" aria-hidden="true" />
+                      Premium
+                    </Badge>
+                    <RiAddLine aria-hidden="true" />
                   </div>
                 </Card>
               }
