@@ -1,24 +1,48 @@
-import * as React from "react";
+// Tremor Textarea [v1.0.0]
 
-import { cn } from "@/lib/utils";
+import React from "react";
 
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+import { cn, focusInput, hasErrorInput } from "@/lib/utils";
+
+interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  hasError?: boolean;
+}
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, hasError, ...props }: TextareaProps, forwardedRef) => {
     return (
       <textarea
+        ref={forwardedRef}
         className={cn(
-          "flex min-h-[80px] w-full rounded-base border-2 text-text font-base selection:bg-main selection:text-mtext border-border bg-bw px-3 py-2 text-sm ring-offset-white focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
+          // base
+          "flex min-h-[4rem] w-full rounded-md border px-3 py-1.5 shadow-xs outline-hidden transition-colors sm:text-sm",
+          // text color
+          "text-gray-900 dark:text-gray-50",
+          // border color
+          "border-gray-300 dark:border-gray-800",
+          // background color
+          "bg-white dark:bg-gray-950",
+          // placeholder color
+          "placeholder-gray-400 dark:placeholder-gray-500",
+          // disabled
+          "disabled:border-gray-300 disabled:bg-gray-100 disabled:text-gray-300",
+          "dark:disabled:border-gray-700 dark:disabled:bg-gray-800 dark:disabled:text-gray-500",
+          // focus
+          focusInput,
+          // error
+          hasError ? hasErrorInput : "",
+          // invalid (optional)
+          // "dark:aria-invalid:ring-red-400/20 aria-invalid:ring-2 aria-invalid:ring-red-200 aria-invalid:border-red-500 invalid:ring-2 invalid:ring-red-200 invalid:border-red-500"
           className
         )}
-        ref={ref}
+        tremor-id="tremor-raw"
         {...props}
       />
     );
   }
 );
+
 Textarea.displayName = "Textarea";
 
-export { Textarea };
+export { Textarea, type TextareaProps };

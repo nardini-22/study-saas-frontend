@@ -8,6 +8,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--color-background-primary);
   color: var(--color-text-primary);
+  padding: 1rem 2rem !important;
+  @media (width >= 64rem) {
+    padding: 1rem 9rem !important;
+  }
 }
 
 @theme {

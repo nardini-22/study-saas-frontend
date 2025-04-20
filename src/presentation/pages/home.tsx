@@ -1,10 +1,11 @@
 "use client";
 
 import { IAuthContract } from "@/domain/auth";
-import { Button, ModalLogin } from "../components";
+import { Button, ModalLogin, ModalPlans } from "../components";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks";
+import { RiFootprintFill, RiVipCrownFill } from "@remixicon/react";
 
 interface Props {
   auth: IAuthContract;
@@ -89,13 +90,18 @@ export function HomePage({ auth }: Props) {
         </p>
       </div>
       <div className="flex flex-col gap-4">
-        <Button size="lg" onClick={handleStartTrail} className="h-14">
+        <Button onClick={handleStartTrail} className="h-14 gap-2 flex">
+          <RiFootprintFill aria-hidden="true" />
           Comece a trilhar
         </Button>
         <ModalLogin open={open} setOpen={setOpen} auth={auth} />
-        <Button size="sm" variant="neutral">
-          Planos
-        </Button>
+        <ModalPlans
+          trigger={
+            <Button className="gap-2 flex" variant="light">
+              <RiVipCrownFill className="size-4" aria-hidden="true" /> Planos
+            </Button>
+          }
+        />
       </div>
     </div>
   );

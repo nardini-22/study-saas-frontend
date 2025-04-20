@@ -1,134 +1,216 @@
-"use client";
+// Tremor Toast [v1.0.0]
 
+import React from "react";
 import * as ToastPrimitives from "@radix-ui/react-toast";
-import { Check, Info, TriangleAlert, X } from "lucide-react";
-
-import * as React from "react";
+import {
+  RiCheckboxCircleFill,
+  RiCloseCircleFill,
+  RiErrorWarningFill,
+  RiInformationFill,
+  RiLoader2Fill,
+} from "@remixicon/react";
 
 import { cn } from "@/lib/utils";
-import { ToasterToastVariant } from "@/presentation/hooks";
 
 const ToastProvider = ToastPrimitives.Provider;
+ToastProvider.displayName = "ToastProvider";
 
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>
->(({ className, ...props }, ref) => (
+>(({ className, ...props }, forwardedRef) => (
   <ToastPrimitives.Viewport
-    ref={ref}
+    ref={forwardedRef}
     className={cn(
-      "fixed top-0 z-100 flex max-h-screen w-full flex-col-reverse p-4 font-base sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]",
+      "fixed right-0 top-0 z-9999 m-0 flex w-full max-w-[100vw] list-none flex-col gap-2 p-[var(--viewport-padding)] [--viewport-padding:_15px] sm:max-w-md sm:gap-4",
       className
     )}
     {...props}
   />
 ));
-ToastViewport.displayName = ToastPrimitives.Viewport.displayName;
+
+ToastViewport.displayName = "ToastViewport";
+
+interface ActionProps {
+  label: string;
+  altText: string;
+  onClick: () => void | Promise<void>;
+}
+
+interface ToastProps
+  extends React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> {
+  variant?: "info" | "success" | "warning" | "error" | "loading";
+  title?: string;
+  description?: string;
+  action?: ActionProps;
+  disableDismiss?: boolean;
+}
 
 const Toast = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root>
->(({ className, ...props }, ref) => {
-  return (
-    <ToastPrimitives.Root
-      ref={ref}
-      className={cn(
-        "bg-main text-mtext group pointer-events-auto relative flex w-full items-center justify-between space-x-4 overflow-hidden rounded-base border-2 border-border shadow-shadow p-6 pr-8 transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-top-full sm:data-[state=open]:slide-in-from-bottom-full",
-        className
-      )}
-      {...props}
-    />
-  );
-});
-Toast.displayName = ToastPrimitives.Root.displayName;
+  ToastProps
+>(
+  (
+    {
+      className,
+      variant,
+      title,
+      description,
+      action,
+      disableDismiss = false,
+      ...props
+    }: ToastProps,
+    forwardedRef
+  ) => {
+    let Icon: React.ReactNode;
 
-const ToastAction = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Action>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Action>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Action
-    ref={ref}
-    className={cn(
-      "inline-flex h-8 shrink-0 items-center justify-center rounded-base border-2 border-border bg-white px-3 text-sm font-base text-mtext ring-offset-white transition-colors disabled:pointer-events-none disabled:opacity-50",
-      className
-    )}
-    {...props}
-  />
-));
-ToastAction.displayName = ToastPrimitives.Action.displayName;
+    switch (variant) {
+      case "success":
+        Icon = (
+          <RiCheckboxCircleFill
+            className="size-5 shrink-0 text-emerald-600 dark:text-emerald-500"
+            aria-hidden="true"
+          />
+        );
+        break;
+      case "warning":
+        Icon = (
+          <RiErrorWarningFill
+            className="size-5 shrink-0 text-amber-500 dark:text-amber-500"
+            aria-hidden="true"
+          />
+        );
+        break;
+      case "error":
+        Icon = (
+          <RiCloseCircleFill
+            className="size-5 shrink-0 text-red-600 dark:text-red-500"
+            aria-hidden="true"
+          />
+        );
+        break;
+      case "loading":
+        Icon = (
+          <RiLoader2Fill
+            className="size-5 shrink-0 animate-spin text-gray-600 dark:text-gray-500"
+            aria-hidden="true"
+          />
+        );
+        break;
+      default:
+        Icon = (
+          <RiInformationFill
+            className="size-5 shrink-0 text-blue-500 dark:text-blue-500"
+            aria-hidden="true"
+          />
+        );
+        break;
+    }
 
-const ToastClose = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Close>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Close>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Close
-    ref={ref}
-    className={cn(
-      "absolute right-2 top-2 rounded-md p-1 text-mtext opacity-0 transition-opacity group-hover:opacity-100",
-      className
-    )}
-    toast-close=""
-    {...props}
-  >
-    <X className="h-4 w-4" />
-  </ToastPrimitives.Close>
-));
-ToastClose.displayName = ToastPrimitives.Close.displayName;
-
-const ToastTitle = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Title>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Title>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Title
-    ref={ref}
-    className={cn("text-sm font-heading", className)}
-    {...props}
-  />
-));
-ToastTitle.displayName = ToastPrimitives.Title.displayName;
-
-const ToastDescription = React.forwardRef<
-  React.ElementRef<typeof ToastPrimitives.Description>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Description>
->(({ className, ...props }, ref) => (
-  <ToastPrimitives.Description
-    ref={ref}
-    className={cn("text-sm font-base", className)}
-    {...props}
-  />
-));
-ToastDescription.displayName = ToastPrimitives.Description.displayName;
-
-interface ToastIconProps {
-  variant?: ToasterToastVariant;
-}
-
-const iconMap: Record<ToasterToastVariant, React.ReactNode> = {
-  success: <Check />,
-  error: <X />,
-  warning: <TriangleAlert />,
-  info: <Info />,
-};
-
-const ToastIcon = ({ variant }: ToastIconProps) => (
-  <div>{variant && iconMap[variant] ? iconMap[variant] : null}</div>
+    return (
+      <ToastPrimitives.Root
+        ref={forwardedRef}
+        className={cn(
+          // base
+          "flex h-fit min-h-16 w-full overflow-hidden rounded-md border shadow-lg shadow-black/5",
+          // background color
+          "bg-white dark:bg-[#090E1A]",
+          // border color
+          "border-gray-200 dark:border-gray-800",
+          // swipe
+          "data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-[var(--radix-toast-swipe-end-x)] data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)] data-[swipe=move]:transition-none",
+          // transition
+          "data-[state=open]:animate-slide-left-and-fade",
+          "data-[state=closed]:animate-hide",
+          className
+        )}
+        tremor-id="tremor-raw"
+        {...props}
+      >
+        <div
+          className={cn(
+            // base
+            "flex flex-1 items-start gap-3 p-4",
+            // border
+            !disableDismiss || action
+              ? "border-r border-gray-200 dark:border-gray-800"
+              : ""
+          )}
+        >
+          {Icon}
+          <div className="flex flex-col gap-1">
+            {title && (
+              <ToastPrimitives.Title className="text-sm font-semibold text-gray-900 dark:text-gray-50">
+                {title}
+              </ToastPrimitives.Title>
+            )}
+            {description && (
+              <ToastPrimitives.Description className="text-sm text-gray-600 dark:text-gray-400">
+                {description}
+              </ToastPrimitives.Description>
+            )}
+          </div>
+        </div>
+        <div className="flex flex-col">
+          {action && (
+            <>
+              <ToastPrimitives.Action
+                altText={action.altText}
+                className={cn(
+                  // base
+                  "flex flex-1 items-center justify-center px-6 text-sm font-semibold transition-colors",
+                  // hover
+                  "hover:bg-gray-50 dark:hover:bg-gray-900/30",
+                  // text color
+                  "text-gray-800 dark:text-gray-100",
+                  // active
+                  "active:bg-gray-100 dark:active:bg-gray-800",
+                  {
+                    "text-red-600 dark:text-red-500": variant === "error",
+                  }
+                )}
+                onClick={(event) => {
+                  event.preventDefault();
+                  action.onClick();
+                }}
+                type="button"
+              >
+                {action.label}
+              </ToastPrimitives.Action>
+              <div className="h-px w-full bg-gray-200 dark:bg-gray-800" />
+            </>
+          )}
+          {!disableDismiss && (
+            <ToastPrimitives.Close
+              className={cn(
+                // base
+                "flex flex-1 items-center justify-center px-6 text-sm transition-colors",
+                // text color
+                "text-gray-600 dark:text-gray-400",
+                // hover
+                "hover:bg-gray-50 dark:hover:bg-gray-900/30",
+                // active
+                "active:bg-gray-100",
+                action ? "h-1/2" : "h-full"
+              )}
+              aria-label="Close"
+            >
+              Close
+            </ToastPrimitives.Close>
+          )}
+        </div>
+      </ToastPrimitives.Root>
+    );
+  }
 );
+Toast.displayName = "Toast";
 
-ToastIcon.displayName = "ToastIcon";
-
-type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>;
-
-type ToastActionElement = React.ReactElement<typeof ToastAction>;
+type ToastActionElement = ActionProps;
 
 export {
-  type ToastProps,
-  type ToastActionElement,
+  Toast,
   ToastProvider,
   ToastViewport,
-  Toast,
-  ToastTitle,
-  ToastDescription,
-  ToastClose,
-  ToastAction,
-  ToastIcon,
+  type ToastActionElement,
+  type ToastProps,
 };
