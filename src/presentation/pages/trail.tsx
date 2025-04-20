@@ -4,7 +4,6 @@ import {
   Card,
   ModalCreatePost,
   ModalPlans,
-  Paper,
   Skeleton,
 } from "../components";
 import { useEffect, useState } from "react";
