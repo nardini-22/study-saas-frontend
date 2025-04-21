@@ -38,7 +38,8 @@
       },
       "a11y": {
         "useKeyWithClickEvents": "off",
-        "noNoninteractiveTabindex": "off"
+        "noNoninteractiveTabindex": "off",
+        "noSvgWithoutTitle": "off"
       }
     }
   },

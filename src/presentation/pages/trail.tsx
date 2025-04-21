@@ -1,16 +1,8 @@
 import { IPostsContract } from "@/domain/models/posts";
-import {
-  Button,
-  Card,
-  ModalCreatePost,
-  ModalPlans,
-  Skeleton,
-  Tooltip,
-} from "../components";
+import { Card, ModalCreatePost, Pointer, Skeleton } from "../components";
 import { useEffect, useState } from "react";
 import { ITrails, ITrailsContract } from "@/domain/models/trails";
 import { useAuth, useToast } from "../hooks";
-import { RiAddLine } from "@remixicon/react";
 
 interface Props {
   postService: IPostsContract;
@@ -62,6 +54,9 @@ export function TrailPage({ postService, trailsService, trailId }: Props) {
         />
       </div>
       <div className="border border-gray-200 dark:border-gray-900 rounded-md min-h-screen p-8 rounded-base flex flex-col items-end gap-8 inset-0 w-full -z-10 bg-[radial-gradient(#D0D1D4_1px,transparent_1px)] [background-size:16px_16px]">
+        <Pointer>
+          <div className="lg:text-2xl lg:block hidden">✏️</div>
+        </Pointer>
         {loading ? (
           <div className="w-full flex flex-col justify-end items-end gap-8 ">
             {Array.from({ length: 3 }).map((_, index) => (

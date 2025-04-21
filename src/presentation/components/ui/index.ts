@@ -14,3 +14,4 @@ export * from "./divider";
 export * from "./badge";
 export * from "./tooltip";
 export * from "./bar-chart";
+export * from "./pointer";
