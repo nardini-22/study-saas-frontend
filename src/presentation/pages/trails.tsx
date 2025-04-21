@@ -7,16 +7,74 @@ import {
   ModalPlans,
   Card,
   Badge,
+  BarChart,
 } from "../components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth, useToast } from "../hooks";
-import { RiAddLine, RiDiamondLine, RiSignpostLine } from "@remixicon/react";
+import {
+  RiAddLine,
+  RiBarChart2Fill,
+  RiDiamondLine,
+  RiMegaphoneLine,
+  RiSignpostFill,
+} from "@remixicon/react";
 import { UnauthorizedError } from "@/domain/errors";
 
 interface Props {
   service: ITrailsContract;
 }
+
+const chartdata = [
+  {
+    date: "Em breve",
+    comingSoon: 2890,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 2756,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 3322,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 3470,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 3475,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 3129,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 3490,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 2903,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 2643,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 2837,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 2954,
+  },
+  {
+    date: "Em breve",
+    comingSoon: 3239,
+  },
+];
 
 export function TrailsPage({ service }: Props) {
   const { toast } = useToast();
@@ -54,7 +112,7 @@ export function TrailsPage({ service }: Props) {
       <div className="flex gap-9 flex-col pt-24">
         <div className="flex items-center gap-4">
           <Card className="bg-primary-500 size-14 p-4 flex justify-center items-center text-text-secondary">
-            <RiSignpostLine className="size-14" aria-hidden="true" />
+            <RiSignpostFill className="size-14" aria-hidden="true" />
           </Card>
           <h1 className="text-[2rem] font-semibold">Trilhas</h1>
         </div>
@@ -116,6 +174,36 @@ export function TrailsPage({ service }: Props) {
               fetchTrails={fetchTrails}
             />
           )}
+        </div>
+      </div>
+      <div className="flex gap-9 flex-col pt-24">
+        <div className="flex items-center gap-4">
+          <Card className="bg-secondary-500 size-14 p-4 flex justify-center items-center text-text-secondary">
+            <RiBarChart2Fill className="size-14" aria-hidden="true" />
+          </Card>
+          <h1 className="text-[2rem] font-semibold">
+            Ranking
+            <Badge variant="warning" className="ml-2">
+              <RiMegaphoneLine className="size-4" aria-hidden="true" />
+              Em breve
+            </Badge>
+          </h1>
+        </div>
+        <div className="w-full flex gap-8 blur-sm">
+          <Card withBorder className="w-full">
+            <BarChart
+              colors={["secondary"]}
+              className="h-80 w-full"
+              data={chartdata}
+              index="date"
+              categories={["comingSoon"]}
+              valueFormatter={(number: number) =>
+                `$${Intl.NumberFormat("us").format(number).toString()}`
+              }
+              onValueChange={(v) => console.log(v)}
+              xAxisLabel="Coming Soon"
+            />
+          </Card>
         </div>
       </div>
     </>

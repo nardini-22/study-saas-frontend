@@ -37,7 +37,8 @@
         "noExplicitAny": "off"
       },
       "a11y": {
-        "useKeyWithClickEvents": "off"
+        "useKeyWithClickEvents": "off",
+        "noNoninteractiveTabindex": "off"
       }
     }
   },
