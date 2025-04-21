@@ -14,10 +14,10 @@ import Link from "next/link";
 import { useAuth, useToast } from "../hooks";
 import {
   RiAddLine,
-  RiBarChart2Fill,
   RiDiamondLine,
+  RiGlobalLine,
   RiMegaphoneLine,
-  RiSignpostFill,
+  RiSignpostLine,
 } from "@remixicon/react";
 import { UnauthorizedError } from "@/domain/errors";
 
@@ -112,7 +112,7 @@ export function TrailsPage({ service }: Props) {
       <div className="flex gap-9 flex-col pt-24">
         <div className="flex items-center gap-4">
           <Card className="bg-primary-500 size-14 p-4 flex justify-center items-center text-text-secondary">
-            <RiSignpostFill className="size-14" aria-hidden="true" />
+            <RiSignpostLine className="size-14" aria-hidden="true" />
           </Card>
           <h1 className="text-[2rem] font-semibold">Trilhas</h1>
         </div>
@@ -179,10 +179,10 @@ export function TrailsPage({ service }: Props) {
       <div className="flex gap-9 flex-col pt-24">
         <div className="flex items-center gap-4">
           <Card className="bg-secondary-500 size-14 p-4 flex justify-center items-center text-text-secondary">
-            <RiBarChart2Fill className="size-14" aria-hidden="true" />
+            <RiGlobalLine className="size-14" aria-hidden="true" />
           </Card>
           <h1 className="text-[2rem] font-semibold">
-            Ranking
+            Ranking global
             <Badge variant="warning" className="ml-2">
               <RiMegaphoneLine className="size-4" aria-hidden="true" />
               Em breve

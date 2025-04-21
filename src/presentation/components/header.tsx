@@ -16,11 +16,17 @@ import {
   DropdownMenuItem,
   Card,
   DropdownMenuGroup,
+  Badge,
 } from "./ui";
 import { useAuth } from "../hooks";
 import { createClient } from "@/infra/gateway/supabase";
 import { useRouter } from "next/navigation";
-import { RiLoginBoxLine, RiLogoutBoxLine, RiUserLine } from "@remixicon/react";
+import {
+  RiLoginBoxLine,
+  RiLogoutBoxLine,
+  RiMegaphoneLine,
+  RiUserLine,
+} from "@remixicon/react";
 
 interface Props {
   auth: IAuthContract;
@@ -81,7 +87,11 @@ export function Header({ auth }: Props) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <RiUserLine className="size-4" aria-hidden="true" />
-                Perfil
+                <p>Perfil</p>
+                <Badge variant="warning" className="ml-2">
+                  <RiMegaphoneLine className="size-4" aria-hidden="true" />
+                  Em breve
+                </Badge>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={signOut}>
                 <RiLogoutBoxLine className="size-4" aria-hidden="true" />
