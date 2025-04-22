@@ -6,3 +6,4 @@ export * from "./modal-create-trail";
 export * from "./modal-create-post";
 export * from "./header";
 export * from "./modal-plans";
+export * from "./bento-grid-home";

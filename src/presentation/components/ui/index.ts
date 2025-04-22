@@ -15,3 +15,7 @@ export * from "./badge";
 export * from "./tooltip";
 export * from "./bar-chart";
 export * from "./pointer";
+export * from "./bento-grid";
+export * from "./globe";
+export * from "./marquee";
+export * from "./animated-beam";
