@@ -49,7 +49,9 @@ export function Header({ auth }: Props) {
 
   return (
     <Card className="bg-background-primary px-4 py-2 flex justify-between bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 top-8 items-center fixed left-6 right-6 lg:left-36 lg:right-36 z-11">
-      <h1 className="font-bold text-3xl">til~</h1>
+      <h2 className="font-bold text-3xl">
+        t<span className="text-primary-500">~</span>
+      </h2>
       {loading ? (
         <div className="flex items-center space-x-4">
           <Skeleton className="size-10 rounded-md" />
