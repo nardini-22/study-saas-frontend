@@ -17,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={rubik.className}>
+    <html lang="pt-BR" className={rubik.className}>
       <body>
         <Providers>{children}</Providers>
       </body>
