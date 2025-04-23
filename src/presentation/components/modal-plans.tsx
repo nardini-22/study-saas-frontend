@@ -1,5 +1,6 @@
 "use client";
 
+import { Badges } from "./badges";
 import {
   Badge,
   Button,
@@ -12,7 +13,7 @@ import {
   DialogTrigger,
   Divider,
 } from "./ui";
-import { RiCheckLine, RiMegaphoneLine, RiTrophyLine } from "@remixicon/react";
+import { RiCheckLine, RiTrophyLine } from "@remixicon/react";
 
 interface Props {
   trigger?: React.ReactNode;
@@ -77,10 +78,7 @@ export function ModalPlans({ trigger, open, setOpen }: Props) {
           </Card>
           <Card withBorder>
             <div className="space-y-2">
-              <Badge variant="warning">
-                <RiMegaphoneLine className="size-4" aria-hidden="true" />
-                Em breve
-              </Badge>
+              <Badges type="coming soon" />
               <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                 Plano ouro
               </h2>
@@ -119,10 +117,7 @@ export function ModalPlans({ trigger, open, setOpen }: Props) {
           </Card>
           <Card withBorder>
             <div className="space-y-2">
-              <Badge variant="warning">
-                <RiMegaphoneLine className="size-4" aria-hidden="true" />
-                Em breve
-              </Badge>
+              <Badges type="coming soon" />
               <h2 className="scroll-m-20 pb-2 text-3xl font-semibold tracking-tight first:mt-0">
                 Plano diamante
               </h2>

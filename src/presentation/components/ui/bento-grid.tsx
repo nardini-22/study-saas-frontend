@@ -54,9 +54,9 @@ const BentoCard = ({
     <div>{background}</div>
     <div className="pointer-events-none z-10 flex transform-gpu flex-col gap-1 p-6 transition-all duration-300">
       <Icon className="h-12 w-12 origin-left transform-gpu text-text-primary transition-all duration-300 ease-in-out" />
-      <h3 className="text-xl font-semibold text-text-primary dark:text-text-secondary">
+      <h2 className="text-xl font-semibold text-text-primary dark:text-text-secondary">
         {name}
-      </h3>
+      </h2>
       <p className="max-w-lg opacity-75">{description}</p>
     </div>
 

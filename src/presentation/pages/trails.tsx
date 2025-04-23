@@ -6,19 +6,13 @@ import {
   Skeleton,
   ModalPlans,
   Card,
-  Badge,
   BarChart,
+  Badges,
 } from "../components";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth, useToast } from "../hooks";
-import {
-  RiAddLine,
-  RiDiamondLine,
-  RiGlobalLine,
-  RiMegaphoneLine,
-  RiSignpostLine,
-} from "@remixicon/react";
+import { RiAddLine, RiGlobalLine, RiSignpostLine } from "@remixicon/react";
 import { UnauthorizedError } from "@/domain/errors";
 
 interface Props {
@@ -114,9 +108,9 @@ export function TrailsPage({ service }: Props) {
           <Card className="bg-primary-500 size-14 p-4 flex justify-center items-center text-text-secondary">
             <RiSignpostLine className="size-14" aria-hidden="true" />
           </Card>
-          <h1 className="text-[2rem] font-semibold">Trilhas</h1>
+          <h2 className="text-[2rem] font-semibold">Trilhas</h2>
         </div>
-        <div className="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {loading ? (
             <>
               <Skeleton className="flex-col h-36 p-4 text-center" />
@@ -149,10 +143,7 @@ export function TrailsPage({ service }: Props) {
                   className="h-36 cursor-pointer hover:bg-gray-100"
                 >
                   <div className="h-full flex justify-center items-center">
-                    <Badge className="absolute top-2 right-2" variant="default">
-                      <RiDiamondLine className="size-5" aria-hidden="true" />
-                      Premium
-                    </Badge>
+                    <Badges type="premium" className="absolute top-2 right-2" />
                     <RiAddLine aria-hidden="true" />
                   </div>
                 </Card>
@@ -181,13 +172,10 @@ export function TrailsPage({ service }: Props) {
           <Card className="bg-secondary-500 size-14 p-4 flex justify-center items-center text-text-secondary">
             <RiGlobalLine className="size-14" aria-hidden="true" />
           </Card>
-          <h1 className="text-[2rem] font-semibold">
+          <h2 className="text-[2rem] font-semibold">
             Ranking global
-            <Badge variant="warning" className="ml-2">
-              <RiMegaphoneLine className="size-4" aria-hidden="true" />
-              Em breve
-            </Badge>
-          </h1>
+            <Badges type="coming soon" className="ml-2" />
+          </h2>
         </div>
         <div className="w-full flex gap-8 blur-sm">
           <Card withBorder className="w-full">

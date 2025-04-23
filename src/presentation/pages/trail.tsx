@@ -43,7 +43,7 @@ export function TrailPage({ postService, trailsService, trailId }: Props) {
     <div className="flex-col pt-24">
       <div className="flex justify-between items-center pb-8">
         <div>
-          <h1 className="text-[2rem] font-semibold">{trail?.name}</h1>
+          <h2 className="text-[2rem] font-semibold">{trail?.name}</h2>
           <p className="text-sm">{trail?.description}</p>
         </div>
         <ModalCreatePost
