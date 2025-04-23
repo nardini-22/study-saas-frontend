@@ -75,7 +75,6 @@ export function HomePage({ auth }: Props) {
       <div className="flex flex-col justify-center items-center gap-10 w-full lg:max-w-[50%]">
         <div className="text-5xl uppercase font-tactic-sans leading-[90%] text-center tracking-wider md:text-8xl font-bold text-main text-shadow">
           <h1>Today</h1>
-          {/* <h1 className="text-primary-500">WE</h1> */}
           <h1>
             <span className="text-primary-500">I</span>Learned
           </h1>

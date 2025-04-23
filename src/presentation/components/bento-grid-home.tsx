@@ -238,7 +238,7 @@ export function BentoGridHome() {
           description="Participe de disputas amigáveis de conhecimentos com nossos rankings globais."
           background={
             <div className="absolute flex size-full items-center justify-center [mask-image:linear-gradient(to_top,transparent_10%,#000_100%)]">
-              {/* <Globe /> */}
+              <Globe />
             </div>
           }
           className="lg:col-span-2 col-span-1"
