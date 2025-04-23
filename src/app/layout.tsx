@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     "TIL (Today I Learned) é uma plataforma para criar trilhas de aprendizado personalizadas e registrar o que você aprende todos os dias. Organize seus estudos, acompanhe seu progresso e transforme conhecimento em hábito.",
 };
 
-const rubik = Rubik();
+const rubik = Rubik({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
