@@ -16,6 +16,7 @@ import {
   Input,
   Textarea,
   Form,
+  Divider,
 } from "./ui";
 import { useForm } from "react-hook-form";
 import {
@@ -24,7 +25,7 @@ import {
   ITrailsContract,
 } from "@/domain/models/trails";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "../hooks";
 
 interface Props {
@@ -52,7 +53,6 @@ export function ModalCreateTrail({ service, fetchTrails, trigger }: Props) {
       await service.createTrail({ body: data });
       setOpen(false);
       fetchTrails();
-      form.reset();
     } catch (err) {
       toast({
         variant: "error",
@@ -63,43 +63,53 @@ export function ModalCreateTrail({ service, fetchTrails, trigger }: Props) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    form.reset();
+  }, [open, form]);
+
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{trigger}</DialogTrigger>
-      <DialogContent loading={loading} className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] gap-2 flex flex-col">
         <DialogHeader>
           <DialogTitle>Nova trilha</DialogTitle>
           <DialogDescription>
             Customize sua trilha do jeito que quiser.
           </DialogDescription>
         </DialogHeader>
+        <Divider />
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 font-bold"
-          >
-            <div className="space-y-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-4">
               <FormField
                 control={form.control}
                 name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Nome da trilha</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Adicione um nome..." {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field, formState }) => {
+                  return (
+                    <FormItem>
+                      <FormLabel>Nome da trilha</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Adicione um nome..."
+                          hasError={!!formState.errors.name}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
               <FormField
                 control={form.control}
                 name="description"
-                render={({ field }) => (
+                render={({ field, formState }) => (
                   <FormItem>
                     <FormLabel>Descrição</FormLabel>
                     <FormControl>
                       <Textarea
+                        hasError={!!formState.errors.description}
                         placeholder="Adiciona uma descrição..."
                         {...field}
                       />
@@ -110,7 +120,7 @@ export function ModalCreateTrail({ service, fetchTrails, trigger }: Props) {
               />
             </div>
             <div className="flex justify-end">
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" isLoading={loading}>
                 Criar trilha
               </Button>
             </div>

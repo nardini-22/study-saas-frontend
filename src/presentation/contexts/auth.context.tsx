@@ -61,6 +61,7 @@ export function AuthProvider({ children, service }: AuthProviderProps) {
       if (err instanceof NotFoundError) {
         setIsNewUser(true);
         setUser(undefined);
+        return;
       }
       setError(err instanceof Error ? err : new Error("Unknown error"));
       toast({

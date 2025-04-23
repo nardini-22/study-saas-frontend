@@ -1,15 +1,8 @@
 import { IPostsContract } from "@/domain/models/posts";
-import {
-  Button,
-  ModalCreatePost,
-  ModalPlans,
-  Paper,
-  Skeleton,
-} from "../components";
+import { Card, ModalCreatePost, Pointer, Skeleton } from "../components";
 import { useEffect, useState } from "react";
 import { ITrails, ITrailsContract } from "@/domain/models/trails";
 import { useAuth, useToast } from "../hooks";
-import { LockKeyhole } from "lucide-react";
 
 interface Props {
   postService: IPostsContract;
@@ -24,14 +17,7 @@ export function TrailPage({ postService, trailsService, trailId }: Props) {
   const [trail, setTrail] = useState<ITrails | undefined>(undefined);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const colors = [
-    "bg-main",
-    "bg-main-blue",
-    "bg-main-orange",
-    "bg-main-pink",
-    "bg-main-green",
-    "bg-main-purple",
-  ];
+  const colors = ["bg-primary-500", "bg-secondary-500"];
 
   const fetchTrail = async () => {
     setLoading(true);
@@ -60,28 +46,19 @@ export function TrailPage({ postService, trailsService, trailId }: Props) {
           <h1 className="text-[2rem] font-semibold">{trail?.name}</h1>
           <p className="text-sm">{trail?.description}</p>
         </div>
-        {user?.plan.maxTrails !== undefined &&
-        trail?.trail_post.length !== undefined &&
-        trail?.trail_post.length >= user.plan.maxTrails ? (
-          <ModalPlans
-            trigger={
-              <Button>
-                <LockKeyhole /> Novo Post
-              </Button>
-            }
-          />
-        ) : (
-          <ModalCreatePost
-            service={postService}
-            trailId={trailId}
-            fetchTrail={fetchTrail}
-            loading={loading}
-          />
-        )}
+        <ModalCreatePost
+          service={postService}
+          trailId={trailId}
+          fetchTrail={fetchTrail}
+          loading={loading}
+        />
       </div>
-      <div className="bg-secondary-bg min-h-screen p-8 rounded-base flex flex-col items-end gap-8 inset-0 w-full -z-10 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px]">
+      <div className="border border-gray-200 dark:border-gray-900 rounded-md min-h-screen p-8 rounded-base flex flex-col items-end gap-8 inset-0 w-full -z-10 bg-[radial-gradient(#D0D1D4_1px,transparent_1px)] [background-size:16px_16px]">
+        <Pointer>
+          <div className="lg:text-2xl lg:block hidden">✏️</div>
+        </Pointer>
         {loading ? (
-          <div className="w-full flex flex-col items-end gap-8 ">
+          <div className="w-full flex flex-col justify-end items-end gap-8 ">
             {Array.from({ length: 3 }).map((_, index) => (
               <Skeleton
                 key={`skeleton-${index}`}
@@ -93,17 +70,19 @@ export function TrailPage({ postService, trailsService, trailId }: Props) {
           trail?.trail_post.map((post, index) => {
             const colorClass = colors[index % colors.length];
             return (
-              <Paper
+              <Card
                 key={post.id}
-                className="flex-col gap-0 lg:max-w-[50%] min-w-[100px]"
+                withBorder
+                className="flex-col p-0 gap-0 lg:max-w-[50%] min-w-[100px]"
               >
-                <div className={`${colorClass} p-4 w-full rounded-t-sm`}>
+                <div className="p-4 w-full flex gap-2">
+                  <div className={`w-1 shrink-0 rounded ${colorClass}`} />
                   <h2 className="text-2xl font-semibold">{post.title}</h2>
                 </div>
                 <div className="p-4">
                   <p>{post.content}</p>
                 </div>
-              </Paper>
+              </Card>
             );
           })
         )}

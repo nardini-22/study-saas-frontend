@@ -22,7 +22,9 @@
       "recommended": true,
       "style": {
         "useImportType": "off",
-        "noNonNullAssertion": "off"
+        "noNonNullAssertion": "off",
+        "useNumberNamespace": "off",
+        "useConst": "off"
       },
       "complexity": {
         "noForEach": "off",
@@ -33,10 +35,13 @@
       },
       "suspicious": {
         "noAssignInExpressions": "off",
-        "noArrayIndexKey": "off"
+        "noArrayIndexKey": "off",
+        "noExplicitAny": "off"
       },
       "a11y": {
-        "useKeyWithClickEvents": "off"
+        "useKeyWithClickEvents": "off",
+        "noNoninteractiveTabindex": "off",
+        "noSvgWithoutTitle": "off"
       }
     }
   },

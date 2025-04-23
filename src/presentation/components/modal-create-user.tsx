@@ -9,6 +9,7 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  Divider,
   Form,
   FormControl,
   FormField,
@@ -24,9 +25,9 @@ import {
 } from "@/domain/models/users";
 import { useCallback, useEffect, useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
-import { Check, X } from "lucide-react";
 import { ConflictError } from "@/domain/errors";
 import { useAuth, useToast } from "../hooks";
+import { RiCheckLine, RiCloseLine } from "@remixicon/react";
 
 interface Props {
   open: boolean;
@@ -103,31 +104,29 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
 
   return (
     <Dialog open={open}>
-      <DialogContent
-        loading={loading}
-        hideCloseButton
-        className="sm:max-w-[425px]"
-      >
+      <DialogContent className="sm:max-w-[425px] gap-2 flex flex-col">
         <DialogHeader>
           <DialogTitle>Completar perfil</DialogTitle>
           <DialogDescription>
             Para uma melhor experiência, nos ajude inserindo essas informações!
           </DialogDescription>
         </DialogHeader>
+        <Divider />
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-8 font-bold"
-          >
-            <div className="space-y-2">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-4">
               <FormField
                 control={form.control}
                 name="name"
-                render={({ field }) => (
+                render={({ field, formState }) => (
                   <FormItem>
                     <FormLabel>Nome</FormLabel>
                     <FormControl>
-                      <Input placeholder="Adicione um nome..." {...field} />
+                      <Input
+                        placeholder="Adicione um nome..."
+                        hasError={!!formState.errors.name}
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -136,7 +135,7 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
               <FormField
                 control={form.control}
                 name="username"
-                render={({ field }) => (
+                render={({ field, formState }) => (
                   <FormItem>
                     <FormLabel>Usuário</FormLabel>
                     <FormControl>
@@ -145,12 +144,13 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
                         endAdornment={
                           isAllowedUsername ===
                           undefined ? null : isAllowedUsername ? (
-                            <Check />
+                            <RiCheckLine aria-hidden="true" />
                           ) : (
-                            <X />
+                            <RiCloseLine aria-hidden="true" />
                           )
                         }
                         placeholder="Adicione um usuário..."
+                        hasError={!!formState.errors.username}
                         {...field}
                       />
                     </FormControl>
@@ -160,7 +160,7 @@ export function ModalCreateUser({ open, service, setIsNewUser }: Props) {
               />
             </div>
             <div className="flex justify-end">
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" isLoading={loading}>
                 Salvar perfil
               </Button>
             </div>

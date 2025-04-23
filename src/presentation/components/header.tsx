@@ -3,7 +3,6 @@
 import { IAuthContract } from "@/domain/auth";
 import { ModalLogin } from "./modal-login";
 import {
-  Paper,
   Avatar,
   AvatarImage,
   AvatarFallback,
@@ -15,11 +14,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuItem,
+  Card,
+  DropdownMenuGroup,
+  Badge,
 } from "./ui";
 import { useAuth } from "../hooks";
-import { LogOut, User } from "lucide-react";
 import { createClient } from "@/infra/gateway/supabase";
 import { useRouter } from "next/navigation";
+import {
+  RiLoginBoxLine,
+  RiLogoutBoxLine,
+  RiMegaphoneLine,
+  RiUserLine,
+} from "@remixicon/react";
 
 interface Props {
   auth: IAuthContract;
@@ -41,15 +48,24 @@ export function Header({ auth }: Props) {
   };
 
   return (
-    <Paper className="px-4 py-2 flex justify-between items-center fixed left-8 right-8 lg:left-36 lg:right-36 z-10">
-      <h1 className="font-bold text-3xl">til~</h1>
+    <Card className="bg-background-primary px-4 py-2 flex justify-between bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-10 top-8 items-center fixed left-6 right-6 lg:left-36 lg:right-36 z-11">
+      <h2 className="font-bold text-3xl">
+        t<span className="text-primary-500">~</span>
+      </h2>
       {loading ? (
         <div className="flex items-center space-x-4">
-          <Skeleton className="size-10 rounded-full" />
-          <Skeleton className="h-4 w-[100px] lg:block hidden" />
+          <Skeleton className="size-10 rounded-md" />
         </div>
       ) : !user ? (
-        <ModalLogin trigger={<Button size="sm">Entrar</Button>} auth={auth} />
+        <ModalLogin
+          trigger={
+            <Button className="flex gap-2">
+              <RiLoginBoxLine className="size-4" aria-hidden="true" />
+              Entrar
+            </Button>
+          }
+          auth={auth}
+        />
       ) : (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -60,33 +76,33 @@ export function Header({ auth }: Props) {
                   {user.name.substring(0, 2).toUpperCase()}
                 </AvatarFallback>
               </Avatar>
-              <div className="lg:block hidden">
-                <h2 className="text-lg font-bold">{user.name}</h2>
-                <p className="font-normal">@{user.username}</p>
-              </div>
             </div>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56">
             <DropdownMenuLabel>
-              <p className="lg:block hidden">Minha conta</p>
-              <div className="lg:hidden block">
+              <div>
                 <h2 className="text-lg font-bold">{user.name}</h2>
                 <p className="font-normal">@{user.username}</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <User />
-              <span>Perfil</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={signOut}>
-              <LogOut />
-              <span>Sair</span>
-            </DropdownMenuItem>
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <RiUserLine className="size-4" aria-hidden="true" />
+                <p>Perfil</p>
+                <Badge variant="warning" className="ml-2">
+                  <RiMegaphoneLine className="size-4" aria-hidden="true" />
+                  Em breve
+                </Badge>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={signOut}>
+                <RiLogoutBoxLine className="size-4" aria-hidden="true" />
+                Sair
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
       )}
-    </Paper>
+    </Card>
   );
 }

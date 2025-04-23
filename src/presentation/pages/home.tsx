@@ -1,10 +1,11 @@
 "use client";
 
 import { IAuthContract } from "@/domain/auth";
-import { Button, ModalLogin } from "../components";
+import { Button, ModalLogin, ModalPlans, BentoGridHome } from "../components";
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks";
+import { RiFootprintFill, RiVipCrownFill } from "@remixicon/react";
 
 interface Props {
   auth: IAuthContract;
@@ -70,33 +71,37 @@ export function HomePage({ auth }: Props) {
   }, [displayText, isDeleting, currentPhrase, currentPhraseIndex, typingSpeed]);
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen gap-10">
-      <div className="text-5xl uppercase font-tactic-sans leading-[90%] text-center tracking-wider md:text-8xl font-bold text-main text-shadow">
-        <h1>
-          <span className="animate-colorT">T</span>
-          oday
-        </h1>
-        <h1>
-          <span className="animate-colorI">I</span>
-          <span className="animate-colorL">L</span>
-          earned
-        </h1>
+    <div className="flex flex-col gap-10 lg:flex-row mt-28">
+      <div className="flex flex-col justify-center items-center gap-10 w-full lg:max-w-[50%]">
+        <div className="text-5xl uppercase font-tactic-sans leading-[90%] text-center tracking-wider md:text-8xl font-bold text-main text-shadow">
+          <h1>Today</h1>
+          {/* <h1 className="text-primary-500">WE</h1> */}
+          <h1>
+            <span className="text-primary-500">I</span>Learned
+          </h1>
+        </div>
+        <div className="font-bold text-2xl text-center">
+          <p className="relative text-lg">
+            {displayText || "\u200B"}
+            <span className="absolute -ml-[1px] animate-blink">|</span>
+          </p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <Button onClick={handleStartTrail} className="h-14 gap-2 flex">
+            <RiFootprintFill aria-hidden="true" />
+            Comece a trilhar
+          </Button>
+          <ModalLogin open={open} setOpen={setOpen} auth={auth} />
+          <ModalPlans
+            trigger={
+              <Button className="gap-2 flex" variant="light">
+                <RiVipCrownFill className="size-4" aria-hidden="true" /> Planos
+              </Button>
+            }
+          />
+        </div>
       </div>
-      <div className="font-bold text-2xl text-center">
-        <p className="relative text-lg">
-          {displayText || "\u200B"}
-          <span className="absolute -ml-[1px] animate-blink">|</span>
-        </p>
-      </div>
-      <div className="flex flex-col gap-4">
-        <Button size="lg" onClick={handleStartTrail} className="h-14">
-          Comece a trilhar
-        </Button>
-        <ModalLogin open={open} setOpen={setOpen} auth={auth} />
-        <Button size="sm" variant="neutral">
-          Planos
-        </Button>
-      </div>
+      <BentoGridHome />
     </div>
   );
 }
